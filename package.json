@@ -3,12 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "check:no-tracking": "node scripts/check-no-tracking.mjs",
+    "check:no-react": "node scripts/check-no-react.mjs",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "check": "npm run test:run && npm run build && npm run check:no-react && npm run check:no-tracking && npm run check:bundle-size"
   },
   "dependencies": {
     "vue": "^3.5.13"
