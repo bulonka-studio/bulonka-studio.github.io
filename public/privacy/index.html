@@ -5,184 +5,389 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index,follow" />
     <title>Privacy Policy — Bulonka Studio</title>
+    <meta name="description" content="Privacy policy for Bulonka Studio mobile apps. Offline-first, no accounts, no sale of personal data." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://bulonka-studio.com/privacy/" />
+
+    <meta name="theme-color" content="#0F0E13" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FBFAFC" media="(prefers-color-scheme: light)" />
+
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          if (s !== 'dark' && s !== 'light') {
+            s = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', s);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
     <style>
-      :root { color-scheme: light dark; }
+      /* Tokens — duplicated from src/styles/tokens.css since this page is
+         standalone HTML and can't import. Keep in sync with tokens.css. */
+      [data-theme='dark'] {
+        --background: #0F0E13;
+        --surface: #1A1622;
+        --surface-variant: #2A2434;
+        --outline: #3D3848;
+        --primary: #BB86FC;
+        --on-primary: #1B0E33;
+        --on-surface: #E7E2EE;
+        --on-surface-muted: #B5AFC0;
+      }
+      [data-theme='light'] {
+        --background: #FBFAFC;
+        --surface: #FFFFFF;
+        --surface-variant: #F1EEF6;
+        --outline: #C7C3CD;
+        --primary: #6750A4;
+        --on-primary: #FFFFFF;
+        --on-surface: #1B1B1F;
+        --on-surface-muted: #5C5860;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme]) {
+          --background: #0F0E13; --surface: #1A1622; --surface-variant: #2A2434;
+          --outline: #3D3848; --primary: #BB86FC; --on-primary: #1B0E33;
+          --on-surface: #E7E2EE; --on-surface-muted: #B5AFC0;
+        }
+      }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme]) {
+          --background: #FBFAFC; --surface: #FFFFFF; --surface-variant: #F1EEF6;
+          --outline: #C7C3CD; --primary: #6750A4; --on-primary: #FFFFFF;
+          --on-surface: #1B1B1F; --on-surface-muted: #5C5860;
+        }
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      * { margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      a { color: inherit; text-decoration: none; }
+
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
       body {
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-        max-width: 760px;
-        margin: 2.5rem auto;
-        padding: 0 1.25rem;
+        background: var(--background);
+        color: var(--on-surface);
+        font-size: 0.95rem;
         line-height: 1.6;
       }
-      h1 { font-size: 2rem; margin-bottom: 0.25rem; }
-      h2 { margin-top: 2rem; }
-      .meta { color: #888; font-size: 0.95rem; margin-bottom: 2rem; }
-      ul { padding-left: 1.25rem; }
-      code { background: rgba(127,127,127,0.15); padding: 0.1em 0.35em; border-radius: 4px; }
-      a { color: #3b82f6; }
+
+      :focus { outline: none; }
+      :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 4px; }
+
+      .nav-bar {
+        border-bottom: 1px solid var(--outline);
+        background: var(--background);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 16px 24px;
+      }
+      @media (min-width: 720px)  { .nav-inner { padding: 16px 40px; } }
+      @media (min-width: 1080px) { .nav-inner { padding: 16px 64px; } }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--on-surface);
+      }
+      .brand-mark {
+        width: 18px; height: 18px;
+        border-radius: 5px;
+        background: radial-gradient(circle at 30% 30%,
+          color-mix(in srgb, var(--primary) 70%, white),
+          var(--primary) 60%,
+          color-mix(in srgb, var(--primary) 60%, black));
+      }
+      .nav-link {
+        font-size: 0.85rem;
+        color: var(--on-surface-muted);
+        padding: 4px 2px;
+        border-bottom: 1px solid transparent;
+      }
+      .nav-link:hover { color: var(--on-surface); }
+
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 64px 24px;
+      }
+      @media (min-width: 720px)  { main { padding: 96px 40px; } }
+      @media (min-width: 1080px) { main { padding: 96px 64px; } }
+
+      h1 {
+        font-size: 2.4rem;
+        line-height: 1.05;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      @media (min-width: 720px) { h1 { font-size: 3rem; } }
+
+      h2 {
+        font-size: 1.2rem;
+        line-height: 1.25;
+        font-weight: 600;
+        margin-top: 48px;
+        margin-bottom: 12px;
+        color: var(--on-surface);
+      }
+      p { margin-bottom: 16px; max-width: 60ch; color: var(--on-surface-muted); }
+      p strong, li strong { color: var(--on-surface); font-weight: 600; }
+      em { color: var(--on-surface); font-style: normal; font-weight: 600; }
+
+      .meta {
+        font-size: 0.78rem;
+        color: var(--on-surface-muted);
+        margin-bottom: 48px;
+        font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      }
+      .meta strong { color: var(--on-surface); }
+
+      ul {
+        padding-left: 20px;
+        margin-bottom: 16px;
+        max-width: 60ch;
+        color: var(--on-surface-muted);
+      }
+      li { margin-bottom: 12px; line-height: 1.6; }
+      li::marker { color: var(--primary); }
+
+      a[href]:not(.brand):not(.nav-link) {
+        color: var(--primary);
+        border-bottom: 1px solid color-mix(in srgb, var(--primary) 40%, transparent);
+        transition: border-bottom-color 150ms cubic-bezier(0.2, 0, 0, 1);
+      }
+      a[href]:not(.brand):not(.nav-link):hover { border-bottom-color: var(--primary); }
+
+      footer {
+        border-top: 1px solid var(--outline);
+        margin-top: 48px;
+      }
+      .footer-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        font-size: 0.78rem;
+        color: var(--on-surface-muted);
+      }
+      @media (min-width: 720px)  { .footer-inner { padding: 24px 40px; } }
+      @media (min-width: 1080px) { .footer-inner { padding: 24px 64px; } }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0s !important;
+          animation-duration: 0s !important;
+        }
+      }
     </style>
   </head>
   <body>
-    <h1>Privacy Policy</h1>
-    <p class="meta">
-      Effective date: <strong>2026-04-26</strong> · Last updated: <strong>2026-04-27</strong>
-    </p>
+    <header class="nav-bar">
+      <div class="nav-inner">
+        <a href="/" class="brand" aria-label="Bulonka Studio — home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>Bulonka Studio</span>
+        </a>
+        <nav aria-label="Primary">
+          <a href="/work/" class="nav-link">Work</a>
+          <a href="/contact/" class="nav-link" style="margin-left:16px">Contact</a>
+        </nav>
+      </div>
+    </header>
 
-    <p>
-      This Privacy Policy describes how <strong>Bulonka Studio</strong> ("we", "us", "our")
-      handles information in connection with our mobile applications and related services
-      (collectively, the "Apps"). This policy applies to all Apps published by Bulonka Studio
-      on Google Play, including but not limited to: <em>homelab-mobile</em>, <em>meds-tracker</em>,
-      <em>smarthome-dash</em>, <em>vehicle-tracker</em>, <em>api-tester-mobile</em>,
-      <em>home-inventory</em>, and <em>doc-scanner</em>.
-    </p>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="meta">
+        Effective date: <strong>2026-04-26</strong> · Last updated: <strong>2026-04-27</strong>
+      </p>
 
-    <h2>1. Who we are</h2>
-    <p>
-      Bulonka Studio is the developer and data controller for the Apps. You can contact us at:
-      <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>.
-    </p>
+      <p>
+        This Privacy Policy describes how <strong>Bulonka Studio</strong> ("we", "us", "our")
+        handles information in connection with our mobile applications and related services
+        (collectively, the "Apps"). This policy applies to all Apps published by Bulonka Studio
+        on Google Play, including but not limited to: <em>homelab-mobile</em>, <em>meds-tracker</em>,
+        <em>smarthome-dash</em>, <em>vehicle-tracker</em>, <em>api-tester-mobile</em>,
+        <em>home-inventory</em>, and <em>doc-scanner</em>.
+      </p>
 
-    <h2>2. Data we collect and why</h2>
-    <p>
-      Our Apps are designed to be <strong>offline-first</strong>. We do not require an account,
-      and we do not transmit your personal content to our servers. Specifically:
-    </p>
-    <ul>
-      <li>
-        <strong>Personal identifiers</strong> (name, email, phone): <em>Not collected</em> by
-        Bulonka Studio. If an App offers an optional sign-in, that section of the App's in-product
-        documentation will describe what is collected and why.
-      </li>
-      <li>
-        <strong>App content you create</strong> (notes, inventory items, medication entries,
-        vehicle records, scanned documents, API requests, dashboard configuration, etc.):
-        Stored <strong>locally on your device</strong>. It is not uploaded to Bulonka Studio.
-      </li>
-      <li>
-        <strong>Photos, files, and camera input</strong>: Used only on-device for the feature you
-        triggered (for example, document scanning or attaching a photo to an inventory item). We do
-        not transmit this content to our servers.
-      </li>
-      <li>
-        <strong>Location</strong>: Only accessed if you use a feature that explicitly requires it
-        (for example, fueling location for vehicle records). Stored locally on your device.
-      </li>
-      <li>
-        <strong>Device and diagnostic information</strong> (crash logs, performance data): If you
-        opt in to share crash diagnostics, anonymous crash reports may be sent to our crash
-        reporting provider to help us fix bugs. These reports do not include the personal content
-        you store in the App.
-      </li>
-      <li>
-        <strong>Purchase information</strong>: When you buy an App or in-app purchase, the
-        transaction is processed by Google Play. We receive only the information Google Play
-        provides to developers (such as an order identifier and country), not your payment details.
-      </li>
-    </ul>
+      <h2>1. Who we are</h2>
+      <p>
+        Bulonka Studio is the developer and data controller for the Apps. You can contact us at:
+        <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>.
+      </p>
 
-    <h2>3. Permissions we may request</h2>
-    <p>
-      Android may prompt you to grant the following permissions, depending on the App and the
-      feature you use. You can deny or revoke any of these from your device settings; some features
-      may then be unavailable.
-    </p>
-    <ul>
-      <li><strong>Camera</strong> — to scan documents or capture photos for items you create.</li>
-      <li><strong>Photos / media / files</strong> — to attach images you choose, or export your data.</li>
-      <li><strong>Location</strong> — for features that record where an event occurred.</li>
-      <li><strong>Notifications</strong> — for reminders you configure (for example, medication times).</li>
-      <li><strong>Network access</strong> — to talk to local devices on your home network (for example, Home Assistant), or to endpoints you explicitly enter (for example, your own API endpoints).</li>
-    </ul>
+      <h2>2. Data we collect and why</h2>
+      <p>
+        Our Apps are designed to be <strong>offline-first</strong>. We do not require an account,
+        and we do not transmit your personal content to our servers. Specifically:
+      </p>
+      <ul>
+        <li>
+          <strong>Personal identifiers</strong> (name, email, phone): <em>Not collected</em> by
+          Bulonka Studio. If an App offers an optional sign-in, that section of the App's in-product
+          documentation will describe what is collected and why.
+        </li>
+        <li>
+          <strong>App content you create</strong> (notes, inventory items, medication entries,
+          vehicle records, scanned documents, API requests, dashboard configuration, etc.):
+          Stored <strong>locally on your device</strong>. It is not uploaded to Bulonka Studio.
+        </li>
+        <li>
+          <strong>Photos, files, and camera input</strong>: Used only on-device for the feature you
+          triggered (for example, document scanning or attaching a photo to an inventory item). We do
+          not transmit this content to our servers.
+        </li>
+        <li>
+          <strong>Location</strong>: Only accessed if you use a feature that explicitly requires it
+          (for example, fueling location for vehicle records). Stored locally on your device.
+        </li>
+        <li>
+          <strong>Device and diagnostic information</strong> (crash logs, performance data): If you
+          opt in to share crash diagnostics, anonymous crash reports may be sent to our crash
+          reporting provider to help us fix bugs. These reports do not include the personal content
+          you store in the App.
+        </li>
+        <li>
+          <strong>Purchase information</strong>: When you buy an App or in-app purchase, the
+          transaction is processed by Google Play. We receive only the information Google Play
+          provides to developers (such as an order identifier and country), not your payment details.
+        </li>
+      </ul>
 
-    <h2>4. How we share data</h2>
-    <p>
-      We do <strong>not</strong> sell your personal data and we do <strong>not</strong> share it
-      with advertisers. Limited sharing may occur only with the following categories of recipients,
-      and only to operate the Apps:
-    </p>
-    <ul>
-      <li>
-        <strong>Google Play / Google LLC</strong> — for app distribution, in-app billing, and
-        (if enabled) crash diagnostics. See Google's privacy policy.
-      </li>
-      <li>
-        <strong>Crash reporting provider</strong> — only if you opt in to share crash diagnostics.
-      </li>
-      <li>
-        <strong>Endpoints you choose</strong> — if you configure an App to talk to a service you
-        own (for example, your own Home Assistant instance or your own API), the App will send
-        requests to that endpoint as you instructed it. Bulonka Studio is not a recipient.
-      </li>
-      <li>
-        <strong>Legal authorities</strong> — when required by law, court order, or to protect
-        rights, safety, and property.
-      </li>
-    </ul>
+      <h2>3. Permissions we may request</h2>
+      <p>
+        Android may prompt you to grant the following permissions, depending on the App and the
+        feature you use. You can deny or revoke any of these from your device settings; some features
+        may then be unavailable.
+      </p>
+      <ul>
+        <li><strong>Camera</strong> — to scan documents or capture photos for items you create.</li>
+        <li><strong>Photos / media / files</strong> — to attach images you choose, or export your data.</li>
+        <li><strong>Location</strong> — for features that record where an event occurred.</li>
+        <li><strong>Notifications</strong> — for reminders you configure (for example, medication times).</li>
+        <li><strong>Network access</strong> — to talk to local devices on your home network (for example, Home Assistant), or to endpoints you explicitly enter (for example, your own API endpoints).</li>
+      </ul>
 
-    <h2>5. Data security</h2>
-    <p>
-      Data you create in the Apps is stored on your device. When the Apps need to communicate over
-      the network (for example, to download updates or to call an endpoint you configured),
-      requests are sent over HTTPS where the destination supports it. We follow industry-standard
-      practices to protect data, but no method of transmission or storage is 100% secure.
-    </p>
+      <h2>4. How we share data</h2>
+      <p>
+        We do <strong>not</strong> sell your personal data and we do <strong>not</strong> share it
+        with advertisers. Limited sharing may occur only with the following categories of recipients,
+        and only to operate the Apps:
+      </p>
+      <ul>
+        <li>
+          <strong>Google Play / Google LLC</strong> — for app distribution, in-app billing, and
+          (if enabled) crash diagnostics. See Google's privacy policy.
+        </li>
+        <li>
+          <strong>Crash reporting provider</strong> — only if you opt in to share crash diagnostics.
+        </li>
+        <li>
+          <strong>Endpoints you choose</strong> — if you configure an App to talk to a service you
+          own (for example, your own Home Assistant instance or your own API), the App will send
+          requests to that endpoint as you instructed it. Bulonka Studio is not a recipient.
+        </li>
+        <li>
+          <strong>Legal authorities</strong> — when required by law, court order, or to protect
+          rights, safety, and property.
+        </li>
+      </ul>
 
-    <h2>6. Data retention</h2>
-    <p>
-      Because your content lives on your device, you control retention. Uninstalling an App, or
-      using its in-app "delete all data" or "reset" option, removes the data from your device.
-      Anonymous crash diagnostics, if you opted in, are retained for up to 90 days by our crash
-      reporting provider.
-    </p>
+      <h2>5. Data security</h2>
+      <p>
+        Data you create in the Apps is stored on your device. When the Apps need to communicate over
+        the network (for example, to download updates or to call an endpoint you configured),
+        requests are sent over HTTPS where the destination supports it. We follow industry-standard
+        practices to protect data, but no method of transmission or storage is 100% secure.
+      </p>
 
-    <h2>7. Your rights and how to delete your data</h2>
-    <p>
-      You can:
-    </p>
-    <ul>
-      <li>
-        <strong>Delete data on-device</strong> at any time using the App's reset/clear option, or
-        by uninstalling the App.
-      </li>
-      <li>
-        <strong>Request deletion of any data Bulonka Studio holds about you</strong> by emailing
-        <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a> from the address you
-        used to contact us. We will respond within 30 days.
-      </li>
-      <li>
-        <strong>Access or correct</strong> any information we hold about you, where applicable
-        under your local law (including GDPR and CCPA), by contacting us at the address above.
-      </li>
-    </ul>
+      <h2>6. Data retention</h2>
+      <p>
+        Because your content lives on your device, you control retention. Uninstalling an App, or
+        using its in-app "delete all data" or "reset" option, removes the data from your device.
+        Anonymous crash diagnostics, if you opted in, are retained for up to 90 days by our crash
+        reporting provider.
+      </p>
 
-    <h2>8. Children</h2>
-    <p>
-      The Apps are not directed to children under 13 (or the equivalent minimum age in your
-      jurisdiction). We do not knowingly collect personal information from children. If you
-      believe a child has provided us with personal information, contact us and we will delete it.
-    </p>
+      <h2>7. Your rights and how to delete your data</h2>
+      <p>
+        You can:
+      </p>
+      <ul>
+        <li>
+          <strong>Delete data on-device</strong> at any time using the App's reset/clear option, or
+          by uninstalling the App.
+        </li>
+        <li>
+          <strong>Request deletion of any data Bulonka Studio holds about you</strong> by emailing
+          <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a> from the address you
+          used to contact us. We will respond within 30 days.
+        </li>
+        <li>
+          <strong>Access or correct</strong> any information we hold about you, where applicable
+          under your local law (including GDPR and CCPA), by contacting us at the address above.
+        </li>
+      </ul>
 
-    <h2>9. International users</h2>
-    <p>
-      Bulonka Studio operates from <strong>Ukraine</strong>. If you use the Apps from outside
-      Ukraine, you understand that any limited data we receive (such as crash diagnostics or
-      purchase metadata from Google Play) may be processed in countries with different data
-      protection laws.
-    </p>
+      <h2>8. Children</h2>
+      <p>
+        The Apps are not directed to children under 13 (or the equivalent minimum age in your
+        jurisdiction). We do not knowingly collect personal information from children. If you
+        believe a child has provided us with personal information, contact us and we will delete it.
+      </p>
 
-    <h2>10. Changes to this policy</h2>
-    <p>
-      We may update this Privacy Policy from time to time. The "Last updated" date at the top of
-      this page reflects the most recent revision. Material changes will be communicated through
-      an in-app notice or release notes.
-    </p>
+      <h2>9. International users</h2>
+      <p>
+        Bulonka Studio operates from <strong>Ukraine</strong>. If you use the Apps from outside
+        Ukraine, you understand that any limited data we receive (such as crash diagnostics or
+        purchase metadata from Google Play) may be processed in countries with different data
+        protection laws.
+      </p>
 
-    <h2>11. Contact</h2>
-    <p>
-      Questions, requests, or complaints about this policy or our data practices:<br />
-      <strong>Bulonka Studio</strong><br />
-      Email: <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>
-    </p>
+      <h2>10. Changes to this policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. The "Last updated" date at the top of
+        this page reflects the most recent revision. Material changes will be communicated through
+        an in-app notice or release notes.
+      </p>
+
+      <h2>11. Contact</h2>
+      <p>
+        Questions, requests, or complaints about this policy or our data practices:<br />
+        <strong>Bulonka Studio</strong><br />
+        Email: <a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>
+      </p>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© Bulonka Studio</span>
+        <a href="/" class="nav-link">Home</a>
+        <span>yholiakh [at] gmail.com</span>
+      </div>
+    </footer>
   </body>
 </html>
