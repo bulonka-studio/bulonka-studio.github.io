@@ -74,8 +74,8 @@ body {
   .page { padding-left: var(--page-pad-desktop); padding-right: var(--page-pad-desktop); }
 }
 
-/* Sections */
-.section { padding-top: var(--sp-7); padding-bottom: var(--sp-7); }
+/* Sections — scroll-margin-top so the sticky Nav doesn't occlude :target / smooth-scroll landings. */
+.section { padding-top: var(--sp-7); padding-bottom: var(--sp-7); scroll-margin-top: 64px; }
 @media (min-width: 720px) {
   .section { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
 }

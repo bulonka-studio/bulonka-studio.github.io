@@ -38,7 +38,6 @@ function isActive(prefix) {
   position: sticky;
   top: 0;
   z-index: 10;
-  backdrop-filter: blur(8px);
 }
 .nav-inner {
   display: flex;
