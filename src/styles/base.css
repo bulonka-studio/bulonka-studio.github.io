@@ -1,0 +1,91 @@
+@import './tokens.css';
+
+/* Mini reset */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html, body { height: 100%; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+/* Body */
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+body {
+  background: var(--background);
+  color: var(--on-surface);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+
+/* Type scale — utility classes; apply to elements directly */
+.t-display { font-size: 2.4rem; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; }
+.t-h1      { font-size: 1.7rem; line-height: 1.15; font-weight: 600; }
+.t-h2      { font-size: 1.2rem; line-height: 1.25; font-weight: 600; }
+.t-body    { font-size: 0.95rem; line-height: 1.55; font-weight: 400; }
+.t-small   { font-size: 0.78rem; line-height: 1.5;  font-weight: 400; color: var(--on-surface-muted); }
+.t-label   { font-size: 0.7rem;  line-height: 1.4;  font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); }
+
+@media (min-width: 720px) {
+  .t-display { font-size: 3rem; }
+  .t-h1      { font-size: 2.1rem; }
+}
+
+/* Focus */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Skip-to-content link — visible only on focus */
+.skip-link {
+  position: absolute;
+  left: var(--sp-3);
+  top: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform var(--motion-fast) var(--motion-ease);
+  z-index: 100;
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+/* Page container */
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-left: var(--page-pad-mobile);
+  padding-right: var(--page-pad-mobile);
+}
+@media (min-width: 720px) {
+  .page { padding-left: var(--page-pad-tablet); padding-right: var(--page-pad-tablet); }
+}
+@media (min-width: 1080px) {
+  .page { padding-left: var(--page-pad-desktop); padding-right: var(--page-pad-desktop); }
+}
+
+/* Sections */
+.section { padding-top: var(--sp-7); padding-bottom: var(--sp-7); }
+@media (min-width: 720px) {
+  .section { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
