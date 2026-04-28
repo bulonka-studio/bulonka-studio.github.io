@@ -11,6 +11,7 @@ export default defineConfig({
         home: resolve(import.meta.dirname, 'index.html'),
         work: resolve(import.meta.dirname, 'work/index.html'),
         contact: resolve(import.meta.dirname, 'contact/index.html'),
+        privacy: resolve(import.meta.dirname, 'privacy/index.html'),
       },
     },
   },
