@@ -1,0 +1,92 @@
+/* Defaults: applied when no [data-theme] is set yet (e.g. JS off + no CSS @media match). */
+:root {
+  /* Spacing rhythm — 4px base */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 16px;
+  --sp-4: 24px;
+  --sp-5: 32px;
+  --sp-6: 48px;
+  --sp-7: 64px;
+  --sp-8: 96px;
+
+  /* Radius scale */
+  --radius-chip: 8px;
+  --radius-sm: 12px;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --page-max: 1120px;
+  --page-pad-mobile: 24px;
+  --page-pad-tablet: 40px;
+  --page-pad-desktop: 64px;
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Dark theme — explicit */
+[data-theme='dark'] {
+  --background: #0F0E13;
+  --surface: #1A1622;
+  --surface-variant: #2A2434;
+  --outline: #3D3848;
+  --primary: #BB86FC;
+  --on-primary: #1B0E33;
+  --primary-container: rgba(187, 134, 252, 0.15);
+  --on-surface: #E7E2EE;
+  --on-surface-muted: #B5AFC0;
+  --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.25);
+  --shadow-fab: 0 6px 18px rgba(187, 134, 252, 0.30);
+}
+
+/* Light theme — explicit */
+[data-theme='light'] {
+  --background: #FBFAFC;
+  --surface: #FFFFFF;
+  --surface-variant: #F1EEF6;
+  --outline: #C7C3CD;
+  --primary: #6750A4;
+  --on-primary: #FFFFFF;
+  --primary-container: #EADDFF;
+  --on-surface: #1B1B1F;
+  --on-surface-muted: #5C5860;
+  --shadow-card: 0 2px 6px rgba(28, 16, 68, 0.04);
+  --shadow-fab: 0 4px 14px rgba(103, 80, 164, 0.25);
+}
+
+/* CSS-only fallback when JS is disabled and no [data-theme] attribute exists.
+   Mirrors the explicit blocks above — keep in sync. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: #0F0E13;
+    --surface: #1A1622;
+    --surface-variant: #2A2434;
+    --outline: #3D3848;
+    --primary: #BB86FC;
+    --on-primary: #1B0E33;
+    --primary-container: rgba(187, 134, 252, 0.15);
+    --on-surface: #E7E2EE;
+    --on-surface-muted: #B5AFC0;
+    --shadow-card: 0 4px 14px rgba(0, 0, 0, 0.25);
+    --shadow-fab: 0 6px 18px rgba(187, 134, 252, 0.30);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --background: #FBFAFC;
+    --surface: #FFFFFF;
+    --surface-variant: #F1EEF6;
+    --outline: #C7C3CD;
+    --primary: #6750A4;
+    --on-primary: #FFFFFF;
+    --primary-container: #EADDFF;
+    --on-surface: #1B1B1F;
+    --on-surface-muted: #5C5860;
+    --shadow-card: 0 2px 6px rgba(28, 16, 68, 0.04);
+    --shadow-fab: 0 4px 14px rgba(103, 80, 164, 0.25);
+  }
+}
