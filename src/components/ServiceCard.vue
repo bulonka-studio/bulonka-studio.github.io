@@ -9,7 +9,7 @@ defineProps({
   <article class="card">
     <div class="card-icon" aria-hidden="true">{{ glyph }}</div>
     <h3 class="t-h2">{{ title }}</h3>
-    <p class="t-body card-body"><slot /></p>
+    <div class="t-body card-body"><slot /></div>
   </article>
 </template>
 
