@@ -137,7 +137,7 @@ Slim full-width band: *"Have a project in mind?"* + single FAB-style button → 
 - Page heading: **"Let's talk about your app."**
 - Lede paragraph: *"Email is the only way in — no forms, no calendars, no analytics, no third parties. Reply usually within one business day."*
 - **Email block:**
-  - Address shown as plain text (human-readable, scraper-resistant): `evgenijj.gljakhvskijj [at] gmail.com`. ⚠️ See §10, item 2 — privacy-positioning concern with using a Gmail address; documented but proceeding per founder decision.
+  - Address shown as plain text (human-readable, scraper-resistant): `yholiakh [at] gmail.com`. ⚠️ See §10, item 2 — privacy-positioning concern with using a Gmail address; documented but proceeding per founder decision.
   - Pill button labeled **"Open in mail app →"** with a real `mailto:` href.
   - Sub-text: "or copy the address ↑".
 - **Meta grid (2×2):** Languages (`English · Українська`) · Time zone (`GMT+2 / +3 (Ukraine)`) · Hours (`Mon–Fri · 09:00–18:00`) · Reply within (`~1 business day`).
@@ -366,7 +366,7 @@ The work is done when **all** of the following are true:
 These are factual gaps. The implementation plan must either resolve them with the founder or carry them as documented placeholders that block the corresponding section.
 
 1. **Founder bio specifics** (blocks §5.1 *About / Founder* copy): exact years of professional mobile experience, list of platforms shipped (iOS native / Android native / Flutter / React Native / KMP / etc.), and a short description of the privacy/security background to mention. Suggested resolution: founder writes one paragraph; implementation slots it in verbatim.
-2. **Contact email choice — flag for reconsideration** (§5.3): the spec uses the founder's existing personal Gmail (`evgenijj.gljakhvskijj@gmail.com`) per the founder's choice. This is at slight odds with the privacy positioning (Google reads all incoming mail) and changing the address later means changing the publicly displayed string. Worth confirming before launch — switching to a custom-domain inbox (`hello@bulonka-studio.com`, served by a privacy-respecting provider like Proton or Fastmail) would resolve this. No code change needed for this spec; it is a content decision.
+2. **Contact email choice — flag for reconsideration** (§5.3): the spec uses the founder's existing personal Gmail (`yholiakh@gmail.com`) per the founder's choice. This is at slight odds with the privacy positioning (Google reads all incoming mail) and changing the address later means changing the publicly displayed string. Worth confirming before launch — switching to a custom-domain inbox (`hello@bulonka-studio.com`, served by a privacy-respecting provider like Proton or Fastmail) would resolve this. No code change needed for this spec; it is a content decision.
 3. **Final copy for headline, sub-headline, principles list, founder paragraph, and the lede paragraphs on `/work` and `/contact`.** The spec provides working drafts that are good enough to ship if untouched, but the founder should review them before implementation hits "done."
 
 ## 11. Non-goals — explicit
