@@ -9,7 +9,7 @@ const meta = [
 ];
 
 const checklist = [
-  'What the app is for, and who it\'s for',
+  'What the app is for, and who it’s for',
   'Where you are today (idea / wireframes / existing app to audit)',
   'Any privacy or regulatory constraints (GDPR, HIPAA, etc.)',
   'Rough timeline and budget if you have them',
