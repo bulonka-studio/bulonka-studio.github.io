@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Bulonka Studio (colorful-home prototype)</title>
+<style>
+:root {
+  --bg: #FAF1E0;
+  --paper: #FFFAF0;
+  --paper-deep: #F4E8CE;
+
+  --c-terra: #C97B5C;
+  --c-terra-deep: #8B4A2E;
+  --c-ochre: #D4A04A;
+  --c-sage:  #7A9978;
+  --c-sky:   #87B5D6;
+  --c-rose:  #D4847A;
+
+  --ink: #3E2C1A;
+  --ink-soft: #5C4A33;
+  --muted: #8A6F50;
+  --line: rgba(138, 111, 80, 0.18);
+
+  --rad: 14px;
+  --rad-lg: 26px;
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -10vh -20vw;
+  background:
+    radial-gradient(ellipse 50vmin 70vmin at 18% 25%, rgba(212, 160, 74, 0.22), transparent 55%),
+    radial-gradient(ellipse 36vmin 56vmin at 85% 75%, rgba(135, 181, 214, 0.18), transparent 55%);
+  pointer-events: none;
+  animation: sunlight 90s ease-in-out infinite alternate;
+  z-index: 0;
+}
+@keyframes sunlight {
+  0%   { transform: translate(-3vw, -2vh) rotate(-2deg); }
+  100% { transform: translate( 3vw,  2vh) rotate( 2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 700ms var(--ease-soft) forwards;
+}
+.fade-up.delay-1 { animation-delay: 80ms; }
+.fade-up.delay-2 { animation-delay: 240ms; }
+.fade-up.delay-3 { animation-delay: 400ms; }
+.fade-up.delay-4 { animation-delay: 560ms; }
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--c-terra); }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 720px) { .wrap { padding: 0 56px; } }
+
+header { padding: 28px 0; }
+nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.05rem; }
+.brand-dot {
+  width: 14px; height: 14px;
+  background: var(--c-terra);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(201, 123, 92, 0.20);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px  rgba(201, 123, 92, 0.20); }
+  50%      { box-shadow: 0 0 0 10px rgba(201, 123, 92, 0.06); }
+}
+.links { display: flex; gap: 24px; color: var(--ink-soft); font-size: 0.95rem; }
+.links a:hover { color: var(--ink); text-decoration: none; }
+.nav-active { color: var(--c-terra-deep); font-weight: 600; border-bottom: 2px solid var(--c-terra); padding-bottom: 2px; }
+
+.page-h { padding: 48px 0 24px; }
+.page-kicker {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-terra-deep);
+  margin-bottom: 16px;
+  background: rgba(201, 123, 92, 0.14);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+h1 {
+  font-size: clamp(2rem, 4.6vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+  max-width: 18ch;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+.page-lede {
+  max-width: 60ch;
+  color: var(--ink-soft);
+  font-size: 1.06rem;
+}
+
+/* Mailbox + email centerpiece */
+.mailbox-block {
+  margin: 56px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+}
+@media (min-width: 720px) { .mailbox-block { grid-template-columns: 200px 1fr; } }
+
+.mailbox {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  position: relative;
+}
+.mailbox svg { width: 100%; height: 100%; overflow: visible; }
+.mailbox .flag {
+  transform-origin: 33% 100%;
+  animation: flag-flip 4.8s ease-in-out infinite;
+}
+@keyframes flag-flip {
+  0%, 35%   { transform: rotate(0deg); }
+  45%, 75%  { transform: rotate(-90deg); }
+  85%, 100% { transform: rotate(0deg); }
+}
+.mailbox .letters {
+  animation: letter-poke 4.8s ease-in-out infinite;
+}
+@keyframes letter-poke {
+  0%, 30%     { transform: translateY(0); opacity: 1; }
+  45%, 70%    { transform: translateY(-6px); opacity: 1; }
+  90%, 100%   { transform: translateY(0); opacity: 1; }
+}
+
+.email-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--rad-lg);
+  padding: 28px 32px;
+  box-shadow: 0 4px 18px rgba(60, 30, 10, 0.06);
+  position: relative;
+}
+.email-card::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(135deg, rgba(201, 123, 92, 0.18), rgba(122, 153, 120, 0.18) 50%, rgba(135, 181, 214, 0.18));
+  border-radius: 30px;
+  z-index: -1;
+  filter: blur(14px);
+  opacity: 0.7;
+}
+.email-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.email-link {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 1.45rem;
+  color: var(--c-terra-deep);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid color-mix(in srgb, var(--c-terra) 50%, transparent);
+  padding-bottom: 2px;
+  transition: border-color 200ms;
+}
+.email-link:hover { border-bottom-color: var(--c-terra); text-decoration: none; }
+.email-side { margin-top: 12px; color: var(--muted); font-size: 0.9rem; }
+
+/* Sections */
+.section { padding: 40px 0; position: relative; }
+.section-h {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.section-h-mark {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transform: translateY(-3px);
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 0.96rem;
+  margin-bottom: 28px;
+  max-width: 56ch;
+}
+
+/* Meta grid — colorful chips */
+.meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  max-width: 80ch;
+}
+@media (min-width: 720px) { .meta { grid-template-columns: repeat(2, 1fr); } }
+.meta-item {
+  padding: 18px 22px;
+  border-radius: var(--rad);
+  transition: transform 220ms var(--ease-bounce);
+}
+.meta-item:hover { transform: translateY(-2px); }
+.meta-item--lang  { background: rgba(212, 160, 74, 0.16); }
+.meta-item--tz    { background: rgba(122, 153, 120, 0.16); }
+.meta-item--hours { background: rgba(135, 181, 214, 0.18); }
+.meta-item--reply { background: rgba(212, 132, 122, 0.16); }
+.meta-key {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.meta-val { font-size: 1.04rem; color: var(--ink); }
+
+/* Checklist — flower bullets */
+.checklist {
+  list-style: none;
+  max-width: 64ch;
+}
+.checklist li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+  color: var(--ink);
+}
+.checklist li::before {
+  content: "✿";
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.checklist li:nth-child(1)::before { color: var(--c-ochre); }
+.checklist li:nth-child(2)::before { color: var(--c-sage); }
+.checklist li:nth-child(3)::before { color: var(--c-sky); }
+.checklist li:nth-child(4)::before { color: var(--c-rose); }
+
+footer { padding: 40px 0 64px; margin-top: 48px; border-top: 1px solid var(--line); position: relative; z-index: 1; }
+.footer-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; color: var(--muted); }
+.signoff { font-style: italic; color: var(--ink-soft); }
+.signoff::before { content: "— "; color: var(--c-ochre); }
+
+::selection { background: rgba(201, 123, 92, 0.30); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="./index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Bulonka Studio</span>
+      </a>
+      <div class="links">
+        <a href="./work.html">Work</a>
+        <a href="./contact.html" class="nav-active">Contact</a>
+        <a href="./night.html" title="night version" style="color: var(--c-terra);">☾</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="page-h fade-up">
+  <div class="wrap">
+    <span class="page-kicker">Contact</span>
+    <h1>Leave a note in the mailbox.</h1>
+    <p class="page-lede">
+      Email is the only way in. No forms, no calendars, no analytics, no third parties. Reply usually inside a business day.
+    </p>
+  </div>
+</section>
+
+<section class="mailbox-block fade-up delay-1">
+  <div class="wrap" style="max-width: 880px;">
+    <div class="mailbox-block" style="margin: 0;">
+      <div class="mailbox" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <!-- post -->
+          <rect x="92" y="120" width="16" height="76" fill="var(--c-terra-deep)" rx="2"/>
+          <!-- mailbox body -->
+          <path d="M30 60 Q30 40 50 40 L150 40 Q170 40 170 60 L170 120 Q170 130 160 130 L40 130 Q30 130 30 120 Z" fill="var(--c-terra)" stroke="var(--c-terra-deep)" stroke-width="2"/>
+          <!-- shadow under top curve -->
+          <path d="M30 60 Q30 40 50 40 L150 40 Q170 40 170 60" fill="none" stroke="var(--c-terra-deep)" stroke-width="2" opacity="0.4"/>
+          <!-- mail slot -->
+          <rect x="58" y="78" width="84" height="20" rx="6" fill="var(--paper-deep)" stroke="var(--c-terra-deep)" stroke-width="1"/>
+          <!-- letters peeking out -->
+          <g class="letters">
+            <rect x="64" y="62" width="28" height="20" fill="white" stroke="var(--muted)" stroke-width="0.8" transform="rotate(-6 78 72)"/>
+            <rect x="100" y="60" width="32" height="22" fill="var(--paper-deep)" stroke="var(--muted)" stroke-width="0.8" transform="rotate( 4 116 71)"/>
+          </g>
+          <!-- flag (raised) -->
+          <g class="flag">
+            <rect x="170" y="60" width="3" height="40" fill="var(--c-terra-deep)"/>
+            <polygon points="173,60 198,64 198,82 173,78" fill="var(--c-rose)"/>
+          </g>
+          <!-- ground line -->
+          <line x1="20" y1="196" x2="180" y2="196" stroke="var(--muted)" stroke-width="1" opacity="0.3"/>
+          <!-- a tiny grass tuft -->
+          <path d="M70 196 Q72 188 74 196 M76 196 Q78 190 80 196" stroke="var(--c-sage)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M124 196 Q126 188 128 196 M130 196 Q132 190 134 196" stroke="var(--c-sage)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div>
+        <div class="email-card">
+          <p class="email-label">Write to</p>
+          <a class="email-link" href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>
+          <p class="email-side">Opens your mail app. The flag goes up when something arrives.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-up delay-2">
+  <div class="wrap">
+    <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-sage);"></span>Details</h2>
+    <p class="section-sub">A few things worth knowing before the first email.</p>
+
+    <div class="meta">
+      <div class="meta-item meta-item--lang">
+        <p class="meta-key">Languages</p>
+        <p class="meta-val">English · Українська</p>
+      </div>
+      <div class="meta-item meta-item--tz">
+        <p class="meta-key">Time zone</p>
+        <p class="meta-val">GMT+2 / +3 (Ukraine)</p>
+      </div>
+      <div class="meta-item meta-item--hours">
+        <p class="meta-key">Hours</p>
+        <p class="meta-val">Mon–Fri · 09:00–18:00</p>
+      </div>
+      <div class="meta-item meta-item--reply">
+        <p class="meta-key">Reply within</p>
+        <p class="meta-val">~1 business day</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-up delay-3">
+  <div class="wrap">
+    <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-ochre);"></span>What to include in your first email</h2>
+    <p class="section-sub">Helps the studio give you a useful answer instead of asking three rounds of clarifying questions.</p>
+
+    <ol class="checklist">
+      <li>What the app is for, and who it's for.</li>
+      <li>Where you are today (idea, wireframes, or an existing app to audit).</li>
+      <li>Any privacy or regulatory constraints (GDPR, HIPAA, etc.).</li>
+      <li>Rough timeline and budget if you have them.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <span>© 2026 Bulonka Studio &nbsp;·&nbsp; <a href="/privacy/">Privacy</a></span>
+      <span class="signoff">Made with care in Ukraine</span>
+      <span><a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
