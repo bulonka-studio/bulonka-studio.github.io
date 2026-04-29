@@ -28,6 +28,7 @@
   --rad-lg: 26px;
 
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,6 +66,21 @@ body::before {
     animation-duration: 0s !important;
     transition-duration: 0s !important;
   }
+}
+
+/* Load-time staggered fade-in for sections — page comes alive on mount */
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 700ms var(--ease-soft) forwards;
+}
+.fade-up.delay-1 { animation-delay: 80ms; }
+.fade-up.delay-2 { animation-delay: 240ms; }
+.fade-up.delay-3 { animation-delay: 400ms; }
+.fade-up.delay-4 { animation-delay: 560ms; }
+.fade-up.delay-5 { animation-delay: 720ms; }
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -141,10 +157,17 @@ h1 {
   color: var(--ink);
 }
 .accent {
-  background: linear-gradient(120deg, var(--c-terra) 0%, var(--c-ochre) 60%, var(--c-rose) 100%);
+  background: linear-gradient(120deg, var(--c-terra) 0%, var(--c-ochre) 50%, var(--c-rose) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
+  animation: gradient-breathe 14s ease-in-out infinite;
+}
+@keyframes gradient-breathe {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 .h-mark {
   position: relative;
@@ -212,8 +235,57 @@ h1 {
   .hero-sun { width: 56px; height: 56px; top: 6px; right: 6px; }
 }
 
+/* Bunting — string of triangle flags between hero and today, gentle sway */
+.bunting {
+  height: 64px;
+  margin: 0 auto;
+  max-width: 880px;
+  position: relative;
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+}
+.bunting svg { width: 100%; height: 100%; overflow: visible; }
+.bunting .flag {
+  transform-origin: top center;
+  animation: sway 5.5s ease-in-out infinite;
+}
+.bunting .flag:nth-child(2) { animation-delay: -0.6s; }
+.bunting .flag:nth-child(3) { animation-delay: -1.2s; }
+.bunting .flag:nth-child(4) { animation-delay: -1.8s; }
+.bunting .flag:nth-child(5) { animation-delay: -2.4s; }
+.bunting .flag:nth-child(6) { animation-delay: -3.0s; }
+.bunting .flag:nth-child(7) { animation-delay: -3.6s; }
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate( 2deg); }
+}
+
 /* Today block — personal touch with stamp */
-.today { padding: 16px 0 64px; }
+.today { padding: 16px 0 64px; position: relative; }
+
+/* Potted plant — sits next to the today card on desktop */
+.plant {
+  position: absolute;
+  right: 4%;
+  bottom: 32px;
+  width: 92px;
+  height: 130px;
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 980px) { .plant { display: block; } }
+.plant .leaf {
+  transform-origin: 50% 100%;
+  animation: leaf-wave 6s ease-in-out infinite;
+}
+.plant .leaf:nth-child(2) { animation-delay: -1.5s; }
+.plant .leaf:nth-child(3) { animation-delay: -3s; }
+.plant .leaf:nth-child(4) { animation-delay: -4.5s; }
+@keyframes leaf-wave {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate( 3deg); }
+}
 .today-card {
   background: var(--paper);
   border: 1.5px dashed rgba(122, 153, 120, 0.55);
@@ -283,6 +355,30 @@ h1 {
   margin-bottom: 32px;
   max-width: 56ch;
 }
+
+/* Window decoration — small framed sky panes that drift over the rooms section */
+.window-deco {
+  position: absolute;
+  top: 8px;
+  right: 6%;
+  width: 96px;
+  height: 110px;
+  pointer-events: none;
+  opacity: 0.85;
+  display: none;
+}
+@media (min-width: 980px) { .window-deco { display: block; } }
+.window-deco .sky {
+  fill: var(--c-sky);
+  animation: sky-drift 18s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes sky-drift {
+  0%   { transform: translateX(-2px) translateY(0px); }
+  100% { transform: translateX( 2px) translateY(2px); }
+}
+
+.section { position: relative; }
 
 /* Service rooms */
 .rooms { display: grid; grid-template-columns: 1fr; gap: 18px; }
@@ -397,7 +493,7 @@ footer {
   </div>
 </header>
 
-<section class="hero">
+<section class="hero fade-up">
   <div class="wrap">
     <svg class="hero-sun" viewBox="0 0 100 100" aria-hidden="true">
       <circle cx="50" cy="50" r="18"/>
@@ -434,8 +530,36 @@ footer {
   </div>
 </section>
 
-<section class="today">
+<div class="bunting fade-up delay-1" aria-hidden="true">
+  <svg viewBox="0 0 880 64" preserveAspectRatio="none">
+    <path d="M10 8 Q440 30 870 8" stroke="var(--muted)" stroke-width="1.2" fill="none" opacity="0.4"/>
+    <g class="flag"><polygon points="80,8  104,8  92,38" fill="var(--c-terra)"/></g>
+    <g class="flag"><polygon points="200,12 224,12 212,42" fill="var(--c-ochre)"/></g>
+    <g class="flag"><polygon points="320,15 344,15 332,45" fill="var(--c-sage)"/></g>
+    <g class="flag"><polygon points="440,16 464,16 452,46" fill="var(--c-sky)"/></g>
+    <g class="flag"><polygon points="560,15 584,15 572,45" fill="var(--c-rose)"/></g>
+    <g class="flag"><polygon points="680,12 704,12 692,42" fill="var(--c-ochre)"/></g>
+    <g class="flag"><polygon points="800,8  824,8  812,38" fill="var(--c-terra)"/></g>
+  </svg>
+</div>
+
+<section class="today fade-up delay-2">
   <div class="wrap">
+    <svg class="plant" viewBox="0 0 92 130" aria-hidden="true">
+      <!-- pot -->
+      <path d="M22 92 L70 92 L66 124 Q66 128 62 128 L30 128 Q26 128 26 124 Z" fill="var(--c-terra)"/>
+      <rect x="20" y="86" width="52" height="8" rx="2" fill="var(--c-terra-deep)"/>
+      <!-- soil -->
+      <ellipse cx="46" cy="92" rx="22" ry="3" fill="#3E2C1A" opacity="0.35"/>
+      <!-- leaves -->
+      <g class="leaf"><path d="M46 88 Q22 70 18 36 Q34 44 44 70 Z" fill="var(--c-sage)"/></g>
+      <g class="leaf"><path d="M46 86 Q70 64 78 30 Q60 42 50 70 Z" fill="var(--c-sage)" opacity="0.85"/></g>
+      <g class="leaf"><path d="M46 86 Q34 56 30 14 Q44 32 48 68 Z" fill="var(--c-sage)" opacity="0.7"/></g>
+      <g class="leaf"><path d="M46 86 Q56 60 62 22 Q50 40 48 68 Z" fill="var(--c-sage)" opacity="0.55"/></g>
+      <!-- a single ochre flower -->
+      <circle cx="22" cy="36" r="5" fill="var(--c-ochre)"/>
+      <circle cx="22" cy="36" r="2" fill="var(--c-rose)"/>
+    </svg>
     <div class="today-card">
       <div class="today-stamp">This week</div>
       <p class="today-label">On the workbench</p>
@@ -446,8 +570,22 @@ footer {
   </div>
 </section>
 
-<section class="section" id="work">
+<section class="section fade-up delay-3" id="work">
   <div class="wrap">
+    <svg class="window-deco" viewBox="0 0 96 110" aria-hidden="true">
+      <!-- frame -->
+      <rect x="2" y="2" width="92" height="106" rx="6" fill="var(--paper-deep)" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <!-- 4 sky panes -->
+      <rect class="sky" x="8"  y="8"  width="38" height="46" rx="2"/>
+      <rect class="sky" x="50" y="8"  width="38" height="46" rx="2" opacity="0.85"/>
+      <rect class="sky" x="8"  y="58" width="38" height="44" rx="2" opacity="0.9"/>
+      <rect class="sky" x="50" y="58" width="38" height="44" rx="2" opacity="0.75"/>
+      <!-- mullion -->
+      <line x1="48" y1="6" x2="48" y2="104" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <line x1="4"  y1="56" x2="92" y2="56" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <!-- a tiny sun in the upper-left pane -->
+      <circle cx="20" cy="22" r="4" fill="var(--c-ochre)"/>
+    </svg>
     <h2 class="section-h"><span class="section-h-mark"></span>Three rooms in this studio</h2>
     <p class="section-sub">Each one is something the studio has shipped before — paid, on a real project, end to end.</p>
 
@@ -487,7 +625,7 @@ footer {
   </div>
 </section>
 
-<section class="section">
+<section class="section fade-up delay-4">
   <div class="wrap">
     <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-sage);"></span>House rules</h2>
     <p class="section-sub">Defaults the studio holds, written down so a new client can disagree before signing.</p>
@@ -502,7 +640,7 @@ footer {
   </div>
 </section>
 
-<footer id="contact">
+<footer id="contact" class="fade-up delay-5">
   <div class="wrap">
     <div class="footer-row">
       <span>© 2026 Bulonka Studio &nbsp;·&nbsp; <a href="/privacy/">Privacy</a></span>
