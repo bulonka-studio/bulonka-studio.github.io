@@ -1,27 +1,27 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bulonka Studio — colorful home (prototype)</title>
+<title>Bulonka Studio — colorful home, night (prototype)</title>
 <style>
 :root {
-  /* Warm five-color palette */
-  --bg: #FAF1E0;
-  --paper: #FFFAF0;
-  --paper-deep: #F4E8CE;
+  /* Warm hearth at night */
+  --bg: #1A130D;            /* deep walnut */
+  --paper: #251A11;         /* card-warm */
+  --paper-deep: #100A06;
 
-  --c-terra: #C97B5C;       /* primary brand carry-over */
-  --c-terra-deep: #8B4A2E;
-  --c-ochre: #D4A04A;       /* warm yellow-orange */
-  --c-sage:  #7A9978;       /* muted garden green */
-  --c-sky:   #87B5D6;       /* soft window blue */
-  --c-rose:  #D4847A;       /* dusty rose accent */
+  --c-amber:  #E8A87C;      /* lamp / primary */
+  --c-amber-deep: #B36A3F;
+  --c-ember:  #D26646;      /* glowing ember */
+  --c-moss:   #6E8C68;      /* night-garden green */
+  --c-night:  #5C7C9C;      /* deep window blue */
+  --c-rose:   #D6816F;      /* warm dusty rose */
 
-  --ink: #3E2C1A;
-  --ink-soft: #5C4A33;
-  --muted: #8A6F50;
-  --line: rgba(138, 111, 80, 0.18);
+  --ink: #F0E4CF;           /* lamp-light cream */
+  --ink-soft: #C9B697;
+  --muted: #8E7A5E;
+  --line: rgba(232, 168, 124, 0.16);
 
   --rad-sm: 6px;
   --rad: 14px;
@@ -43,32 +43,50 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Sunlight: two soft glows that drift very slowly across the page */
+/* Lamp glow + window pool of moonlight, drifting */
 body::before {
   content: '';
   position: fixed;
   inset: -10vh -20vw;
   background:
-    radial-gradient(ellipse 50vmin 70vmin at 18% 25%, rgba(212, 160, 74, 0.22), transparent 55%),
-    radial-gradient(ellipse 36vmin 56vmin at 85% 75%, rgba(135, 181, 214, 0.18), transparent 55%);
+    radial-gradient(ellipse 50vmin 70vmin at 22% 28%, rgba(232, 168, 124, 0.18), transparent 55%),
+    radial-gradient(ellipse 36vmin 56vmin at 82% 78%, rgba( 92, 124, 156, 0.12), transparent 55%);
   pointer-events: none;
-  animation: sunlight 90s ease-in-out infinite alternate;
+  animation: lamp-drift 90s ease-in-out infinite alternate;
   z-index: 0;
 }
-@keyframes sunlight {
+@keyframes lamp-drift {
   0%   { transform: translate(-3vw, -2vh) rotate(-2deg); }
   100% { transform: translate( 3vw,  2vh) rotate( 2deg); }
 }
 
+/* Ember-flicker overlay — subtle warm flicker on the lamp glow */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 50vmin 70vmin at 22% 28%, rgba(210, 102, 70, 0.06), transparent 50%);
+  pointer-events: none;
+  animation: flicker 6s steps(1, end) infinite;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+@keyframes flicker {
+  0%, 22%, 27%, 60%, 65%, 100% { opacity: 0.95; }
+  23%, 26%                      { opacity: 0.55; }
+  61%, 64%                      { opacity: 0.70; }
+  90%, 93%                      { opacity: 0.80; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  body::before { animation: none; }
+  body::before, body::after { animation: none; }
   *, *::before, *::after {
     animation-duration: 0s !important;
     transition-duration: 0s !important;
   }
 }
 
-/* Load-time staggered fade-in for sections — page comes alive on mount */
+/* Load-time staggered fade-in */
 .fade-up {
   opacity: 0;
   transform: translateY(12px);
@@ -84,7 +102,7 @@ body::before {
 }
 
 a { color: inherit; text-decoration: none; }
-a:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--c-terra); }
+a:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--c-amber); }
 
 .wrap {
   max-width: 1080px;
@@ -95,7 +113,6 @@ a:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-und
 }
 @media (min-width: 720px) { .wrap { padding: 0 56px; } }
 
-/* Top bar */
 header { padding: 28px 0; }
 nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
 .brand {
@@ -107,17 +124,15 @@ nav { display: flex; justify-content: space-between; align-items: center; gap: 2
   letter-spacing: -0.005em;
 }
 .brand-dot {
-  width: 14px;
-  height: 14px;
-  background: var(--c-terra);
+  width: 14px; height: 14px;
+  background: var(--c-amber);
   border-radius: 50%;
-  position: relative;
-  box-shadow: 0 0 0 4px rgba(201, 123, 92, 0.20);
-  animation: pulse 4s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(232, 168, 124, 0.18), 0 0 16px rgba(232, 168, 124, 0.45);
+  animation: glow 3.4s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 4px  rgba(201, 123, 92, 0.20); }
-  50%      { box-shadow: 0 0 0 10px rgba(201, 123, 92, 0.06); }
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(232, 168, 124, 0.18), 0 0 16px rgba(232, 168, 124, 0.45); }
+  50%      { box-shadow: 0 0 0 9px rgba(232, 168, 124, 0.06), 0 0 26px rgba(232, 168, 124, 0.65); }
 }
 .links { display: flex; gap: 24px; color: var(--ink-soft); font-size: 0.95rem; }
 .links a:hover { color: var(--ink); text-decoration: none; }
@@ -130,23 +145,23 @@ nav { display: flex; justify-content: space-between; align-items: center; gap: 2
   gap: 8px;
   font-size: 0.9rem;
   color: var(--ink-soft);
-  background: rgba(212, 160, 74, 0.18);
+  background: rgba(232, 168, 124, 0.12);
   padding: 7px 14px;
   border-radius: 999px;
   margin-bottom: 28px;
   font-weight: 500;
+  border: 1px solid rgba(232, 168, 124, 0.2);
 }
-.greeting-wave {
+.greeting-flame {
   display: inline-block;
-  animation: wave 2.4s ease-in-out infinite;
-  transform-origin: 70% 80%;
+  animation: flame 1.8s ease-in-out infinite;
+  transform-origin: 50% 80%;
 }
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  20%      { transform: rotate(-12deg); }
-  40%      { transform: rotate( 14deg); }
-  60%      { transform: rotate( -8deg); }
-  80%      { transform: rotate(  4deg); }
+@keyframes flame {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25%      { transform: rotate(-8deg) scale(1.05); }
+  50%      { transform: rotate( 6deg) scale(0.95); }
+  75%      { transform: rotate(-4deg) scale(1.02); }
 }
 h1 {
   font-size: clamp(2.2rem, 5.2vw, 3.6rem);
@@ -157,9 +172,8 @@ h1 {
   color: var(--ink);
 }
 .accent {
-  background: linear-gradient(120deg, var(--c-terra) 0%, var(--c-ochre) 50%, var(--c-rose) 100%);
+  background: linear-gradient(120deg, var(--c-amber) 0%, var(--c-ember) 50%, var(--c-rose) 100%);
   background-size: 200% 100%;
-  background-position: 0% 50%;
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -179,8 +193,8 @@ h1 {
   left: -2px; right: -2px;
   bottom: 6px;
   height: 10px;
-  background: var(--c-sage);
-  opacity: 0.30;
+  background: var(--c-moss);
+  opacity: 0.32;
   z-index: -1;
   border-radius: 2px;
   transform: skewY(-1.5deg);
@@ -200,16 +214,16 @@ h1 {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.95rem;
   font-weight: 600;
-  background: var(--c-terra);
-  color: white;
+  background: var(--c-amber);
+  color: #2A1810;
   padding: 14px 22px;
   border-radius: var(--rad);
-  box-shadow: 0 4px 14px rgba(201, 123, 92, 0.30);
+  box-shadow: 0 4px 20px rgba(232, 168, 124, 0.30), 0 0 36px rgba(210, 102, 70, 0.18);
   transition: transform 220ms var(--ease-bounce), box-shadow 200ms;
 }
 .cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(201, 123, 92, 0.38);
+  box-shadow: 0 10px 28px rgba(232, 168, 124, 0.40), 0 0 48px rgba(210, 102, 70, 0.25);
   text-decoration: none;
 }
 .cta-side {
@@ -217,25 +231,34 @@ h1 {
   color: var(--muted);
 }
 
-/* Spinning sun in hero corner */
-.hero-sun {
+/* Lamp icon in hero corner — flickers gently */
+.hero-lamp {
   position: absolute;
-  top: 12px;
+  top: 6px;
   right: 18px;
   width: 96px;
-  height: 96px;
-  opacity: 0.78;
-  animation: spin 80s linear infinite;
+  height: 110px;
   pointer-events: none;
+  opacity: 0.95;
 }
-.hero-sun circle { fill: var(--c-ochre); }
-.hero-sun line { stroke: var(--c-ochre); stroke-width: 3; stroke-linecap: round; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.hero-lamp .bulb { fill: var(--c-amber); animation: bulb-flicker 4.5s ease-in-out infinite; transform-origin: center; }
+.hero-lamp .glow { fill: rgba(232, 168, 124, 0.22); animation: glow-flicker 4.5s ease-in-out infinite; transform-origin: center; }
+@keyframes bulb-flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  45%      { opacity: 0.85; transform: scale(0.96); }
+  50%      { opacity: 1;    transform: scale(1.04); }
+  55%      { opacity: 0.92; transform: scale(0.98); }
+}
+@keyframes glow-flicker {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  45%      { opacity: 0.4; transform: scale(0.92); }
+  50%      { opacity: 0.7; transform: scale(1.08); }
+}
 @media (max-width: 720px) {
-  .hero-sun { width: 56px; height: 56px; top: 6px; right: 6px; }
+  .hero-lamp { width: 60px; height: 70px; top: 4px; right: 6px; }
 }
 
-/* Bunting — string of triangle flags between hero and today, gentle sway */
+/* Bunting — dimmer at night */
 .bunting {
   height: 64px;
   margin: 0 auto;
@@ -244,6 +267,7 @@ h1 {
   z-index: 1;
   display: block;
   pointer-events: none;
+  opacity: 0.85;
 }
 .bunting svg { width: 100%; height: 100%; overflow: visible; }
 .bunting .flag {
@@ -261,46 +285,24 @@ h1 {
   50%      { transform: rotate( 2deg); }
 }
 
-/* Today block — personal touch with stamp */
+/* Today block */
 .today { padding: 16px 0 64px; position: relative; }
-
-/* Potted plant — sits next to the today card on desktop */
-.plant {
-  position: absolute;
-  right: 4%;
-  bottom: 32px;
-  width: 92px;
-  height: 130px;
-  pointer-events: none;
-  display: none;
-}
-@media (min-width: 980px) { .plant { display: block; } }
-.plant .leaf {
-  transform-origin: 50% 100%;
-  animation: leaf-wave 6s ease-in-out infinite;
-}
-.plant .leaf:nth-child(2) { animation-delay: -1.5s; }
-.plant .leaf:nth-child(3) { animation-delay: -3s; }
-.plant .leaf:nth-child(4) { animation-delay: -4.5s; }
-@keyframes leaf-wave {
-  0%, 100% { transform: rotate(-3deg); }
-  50%      { transform: rotate( 3deg); }
-}
 .today-card {
   background: var(--paper);
-  border: 1.5px dashed rgba(122, 153, 120, 0.55);
+  border: 1.5px dashed rgba(110, 140, 104, 0.5);
   border-radius: var(--rad-lg);
   padding: 26px 28px;
   max-width: 78ch;
   position: relative;
   transition: transform 250ms var(--ease-bounce);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
 }
 .today-card:hover { transform: translateY(-2px) rotate(-0.25deg); }
 .today-stamp {
   position: absolute;
   top: -14px;
   right: 24px;
-  background: var(--c-sage);
+  background: var(--c-moss);
   color: white;
   font-size: 0.68rem;
   font-weight: 700;
@@ -309,7 +311,7 @@ h1 {
   padding: 5px 12px;
   border-radius: 999px;
   transform: rotate(-3deg);
-  box-shadow: 0 3px 10px rgba(122, 153, 120, 0.28);
+  box-shadow: 0 3px 10px rgba(110, 140, 104, 0.45);
 }
 .today-label {
   font-size: 0.78rem;
@@ -324,12 +326,12 @@ h1 {
 }
 .today-text em {
   font-style: normal;
-  background: linear-gradient(transparent 60%, rgba(212, 160, 74, 0.32) 60%);
+  background: linear-gradient(transparent 60%, rgba(232, 168, 124, 0.32) 60%);
   padding: 0 2px;
 }
 
 /* Sections */
-.section { padding: 64px 0; }
+.section { padding: 64px 0; position: relative; }
 .section-h {
   font-size: 1.6rem;
   font-weight: 600;
@@ -345,9 +347,10 @@ h1 {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--c-ochre);
+  background: var(--c-amber);
   flex-shrink: 0;
   transform: translateY(-3px);
+  box-shadow: 0 0 12px rgba(232, 168, 124, 0.5);
 }
 .section-sub {
   color: var(--muted);
@@ -356,44 +359,24 @@ h1 {
   max-width: 56ch;
 }
 
-/* Window decoration — small framed sky panes that drift over the rooms section */
-.window-deco {
-  position: absolute;
-  top: 8px;
-  right: 6%;
-  width: 96px;
-  height: 110px;
-  pointer-events: none;
-  opacity: 0.85;
-  display: none;
-}
-@media (min-width: 980px) { .window-deco { display: block; } }
-.window-deco .sky {
-  fill: var(--c-sky);
-  animation: sky-drift 18s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-@keyframes sky-drift {
-  0%   { transform: translateX(-2px) translateY(0px); }
-  100% { transform: translateX( 2px) translateY(2px); }
-}
-
-.section { position: relative; }
-
-/* Service rooms */
+/* Service rooms — each glowing softly */
 .rooms { display: grid; grid-template-columns: 1fr; gap: 18px; }
 @media (min-width: 720px) { .rooms { grid-template-columns: repeat(3, 1fr); } }
 .room {
   padding: 26px 24px 28px;
   border-radius: var(--rad-lg);
-  transition: transform 280ms var(--ease-bounce);
+  transition: transform 280ms var(--ease-bounce), box-shadow 280ms;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(232, 168, 124, 0.10);
 }
 .room:hover { transform: translateY(-5px); }
-.room--build { background: linear-gradient(155deg, rgba(201, 123, 92, 0.16), rgba(201, 123, 92, 0.06) 80%); }
-.room--audit { background: linear-gradient(155deg, rgba(122, 153, 120, 0.16), rgba(122, 153, 120, 0.06) 80%); }
-.room--test  { background: linear-gradient(155deg, rgba(135, 181, 214, 0.20), rgba(135, 181, 214, 0.06) 80%); }
+.room--build { background: linear-gradient(155deg, rgba(232, 168, 124, 0.16), rgba(232, 168, 124, 0.04) 80%); }
+.room--build:hover { box-shadow: 0 12px 30px rgba(232, 168, 124, 0.18); }
+.room--audit { background: linear-gradient(155deg, rgba(110, 140, 104, 0.18), rgba(110, 140, 104, 0.04) 80%); }
+.room--audit:hover { box-shadow: 0 12px 30px rgba(110, 140, 104, 0.18); }
+.room--test  { background: linear-gradient(155deg, rgba( 92, 124, 156, 0.20), rgba( 92, 124, 156, 0.04) 80%); }
+.room--test:hover { box-shadow: 0 12px 30px rgba( 92, 124, 156, 0.22); }
 .room-icon {
   width: 44px;
   height: 44px;
@@ -405,10 +388,10 @@ h1 {
   transition: transform 350ms var(--ease-bounce);
 }
 .room:hover .room-icon { transform: rotate(-6deg) scale(1.04); }
-.room--build .room-icon { background: var(--c-terra); }
-.room--audit .room-icon { background: var(--c-sage); }
-.room--test  .room-icon { background: var(--c-sky); }
-.room-icon svg { width: 22px; height: 22px; stroke: white; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.room--build .room-icon { background: var(--c-amber); color: #2A1810; }
+.room--audit .room-icon { background: var(--c-moss); }
+.room--test  .room-icon { background: var(--c-night); }
+.room-icon svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .room-title {
   font-weight: 700;
   font-size: 1.12rem;
@@ -422,11 +405,8 @@ h1 {
   line-height: 1.55;
 }
 
-/* House rules — soft list with rotating florette markers */
-.principles {
-  list-style: none;
-  max-width: 64ch;
-}
+/* House rules */
+.principles { list-style: none; max-width: 64ch; }
 .principles li {
   display: grid;
   grid-template-columns: 32px 1fr;
@@ -442,10 +422,10 @@ h1 {
   font-size: 1.15rem;
   line-height: 1;
 }
-.principles li:nth-child(1)::before { color: var(--c-ochre); }
-.principles li:nth-child(2)::before { color: var(--c-sage); }
-.principles li:nth-child(3)::before { color: var(--c-terra); }
-.principles li:nth-child(4)::before { color: var(--c-sky); }
+.principles li:nth-child(1)::before { color: var(--c-amber); }
+.principles li:nth-child(2)::before { color: var(--c-moss); }
+.principles li:nth-child(3)::before { color: var(--c-ember); }
+.principles li:nth-child(4)::before { color: var(--c-night); }
 .principles li:nth-child(5)::before { color: var(--c-rose); }
 
 /* Footer */
@@ -464,16 +444,10 @@ footer {
   font-size: 0.9rem;
   color: var(--muted);
 }
-.signoff {
-  font-style: italic;
-  color: var(--ink-soft);
-}
-.signoff::before {
-  content: "— ";
-  color: var(--c-ochre);
-}
+.signoff { font-style: italic; color: var(--ink-soft); }
+.signoff::before { content: "— "; color: var(--c-amber); }
 
-::selection { background: rgba(201, 123, 92, 0.30); }
+::selection { background: rgba(232, 168, 124, 0.36); color: var(--ink); }
 </style>
 </head>
 <body>
@@ -488,7 +462,7 @@ footer {
       <div class="links">
         <a href="#work">Work</a>
         <a href="#contact">Contact</a>
-        <a href="./night.html" title="night version" style="color: var(--c-terra);">☾</a>
+        <a href="./index.html" title="day version" style="color: var(--c-amber);">☀</a>
       </div>
     </nav>
   </div>
@@ -496,21 +470,22 @@ footer {
 
 <section class="hero fade-up">
   <div class="wrap">
-    <svg class="hero-sun" viewBox="0 0 100 100" aria-hidden="true">
-      <circle cx="50" cy="50" r="18"/>
-      <line x1="50" y1="6"  x2="50" y2="20"/>
-      <line x1="50" y1="80" x2="50" y2="94"/>
-      <line x1="6"  y1="50" x2="20" y2="50"/>
-      <line x1="80" y1="50" x2="94" y2="50"/>
-      <line x1="18" y1="18" x2="28" y2="28"/>
-      <line x1="72" y1="72" x2="82" y2="82"/>
-      <line x1="82" y1="18" x2="72" y2="28"/>
-      <line x1="28" y1="72" x2="18" y2="82"/>
+    <svg class="hero-lamp" viewBox="0 0 96 110" aria-hidden="true">
+      <!-- glow halo -->
+      <ellipse class="glow" cx="48" cy="44" rx="44" ry="42"/>
+      <!-- shade -->
+      <path d="M22 18 L74 18 L66 50 L30 50 Z" fill="var(--c-amber-deep)" opacity="0.85"/>
+      <path d="M22 18 L74 18 L66 50 L30 50 Z" fill="none" stroke="var(--c-amber)" stroke-width="1.5" opacity="0.7"/>
+      <!-- bulb -->
+      <ellipse class="bulb" cx="48" cy="56" rx="10" ry="8"/>
+      <!-- stand -->
+      <line x1="48" y1="50" x2="48" y2="92" stroke="var(--c-amber-deep)" stroke-width="3"/>
+      <ellipse cx="48" cy="100" rx="20" ry="4" fill="var(--c-amber-deep)"/>
     </svg>
 
     <span class="greeting">
-      <span class="greeting-wave" aria-hidden="true">👋</span>
-      Hi — come in
+      <span class="greeting-flame" aria-hidden="true">🕯</span>
+      The lamp is on — come in
     </span>
 
     <h1>
@@ -534,33 +509,18 @@ footer {
 <div class="bunting fade-up delay-1" aria-hidden="true">
   <svg viewBox="0 0 880 64" preserveAspectRatio="none">
     <path d="M10 8 Q440 30 870 8" stroke="var(--muted)" stroke-width="1.2" fill="none" opacity="0.4"/>
-    <g class="flag"><polygon points="80,8  104,8  92,38" fill="var(--c-terra)"/></g>
-    <g class="flag"><polygon points="200,12 224,12 212,42" fill="var(--c-ochre)"/></g>
-    <g class="flag"><polygon points="320,15 344,15 332,45" fill="var(--c-sage)"/></g>
-    <g class="flag"><polygon points="440,16 464,16 452,46" fill="var(--c-sky)"/></g>
+    <g class="flag"><polygon points="80,8  104,8  92,38" fill="var(--c-amber)"/></g>
+    <g class="flag"><polygon points="200,12 224,12 212,42" fill="var(--c-ember)"/></g>
+    <g class="flag"><polygon points="320,15 344,15 332,45" fill="var(--c-moss)"/></g>
+    <g class="flag"><polygon points="440,16 464,16 452,46" fill="var(--c-night)"/></g>
     <g class="flag"><polygon points="560,15 584,15 572,45" fill="var(--c-rose)"/></g>
-    <g class="flag"><polygon points="680,12 704,12 692,42" fill="var(--c-ochre)"/></g>
-    <g class="flag"><polygon points="800,8  824,8  812,38" fill="var(--c-terra)"/></g>
+    <g class="flag"><polygon points="680,12 704,12 692,42" fill="var(--c-amber)"/></g>
+    <g class="flag"><polygon points="800,8  824,8  812,38" fill="var(--c-ember)"/></g>
   </svg>
 </div>
 
 <section class="today fade-up delay-2">
   <div class="wrap">
-    <svg class="plant" viewBox="0 0 92 130" aria-hidden="true">
-      <!-- pot -->
-      <path d="M22 92 L70 92 L66 124 Q66 128 62 128 L30 128 Q26 128 26 124 Z" fill="var(--c-terra)"/>
-      <rect x="20" y="86" width="52" height="8" rx="2" fill="var(--c-terra-deep)"/>
-      <!-- soil -->
-      <ellipse cx="46" cy="92" rx="22" ry="3" fill="#3E2C1A" opacity="0.35"/>
-      <!-- leaves -->
-      <g class="leaf"><path d="M46 88 Q22 70 18 36 Q34 44 44 70 Z" fill="var(--c-sage)"/></g>
-      <g class="leaf"><path d="M46 86 Q70 64 78 30 Q60 42 50 70 Z" fill="var(--c-sage)" opacity="0.85"/></g>
-      <g class="leaf"><path d="M46 86 Q34 56 30 14 Q44 32 48 68 Z" fill="var(--c-sage)" opacity="0.7"/></g>
-      <g class="leaf"><path d="M46 86 Q56 60 62 22 Q50 40 48 68 Z" fill="var(--c-sage)" opacity="0.55"/></g>
-      <!-- a single ochre flower -->
-      <circle cx="22" cy="36" r="5" fill="var(--c-ochre)"/>
-      <circle cx="22" cy="36" r="2" fill="var(--c-rose)"/>
-    </svg>
     <div class="today-card">
       <div class="today-stamp">This week</div>
       <p class="today-label">On the workbench</p>
@@ -573,20 +533,6 @@ footer {
 
 <section class="section fade-up delay-3" id="work">
   <div class="wrap">
-    <svg class="window-deco" viewBox="0 0 96 110" aria-hidden="true">
-      <!-- frame -->
-      <rect x="2" y="2" width="92" height="106" rx="6" fill="var(--paper-deep)" stroke="var(--c-terra-deep)" stroke-width="2"/>
-      <!-- 4 sky panes -->
-      <rect class="sky" x="8"  y="8"  width="38" height="46" rx="2"/>
-      <rect class="sky" x="50" y="8"  width="38" height="46" rx="2" opacity="0.85"/>
-      <rect class="sky" x="8"  y="58" width="38" height="44" rx="2" opacity="0.9"/>
-      <rect class="sky" x="50" y="58" width="38" height="44" rx="2" opacity="0.75"/>
-      <!-- mullion -->
-      <line x1="48" y1="6" x2="48" y2="104" stroke="var(--c-terra-deep)" stroke-width="2"/>
-      <line x1="4"  y1="56" x2="92" y2="56" stroke="var(--c-terra-deep)" stroke-width="2"/>
-      <!-- a tiny sun in the upper-left pane -->
-      <circle cx="20" cy="22" r="4" fill="var(--c-ochre)"/>
-    </svg>
     <h2 class="section-h"><span class="section-h-mark"></span>Three rooms in this studio</h2>
     <p class="section-sub">Each one is something the studio has shipped before — paid, on a real project, end to end.</p>
 
@@ -597,9 +543,7 @@ footer {
           <svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V8l6-4 6 4v13M10 13h4M10 17h4"/></svg>
         </div>
         <h3 class="room-title">Build</h3>
-        <p class="room-body">
-          Full apps, idea to App Store. iOS native, Android native, and KMP when it earns its keep.
-        </p>
+        <p class="room-body">Full apps, idea to App Store. iOS native, Android native, and KMP when it earns its keep.</p>
       </div>
 
       <div class="room room--audit">
@@ -607,19 +551,15 @@ footer {
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></svg>
         </div>
         <h3 class="room-title">Audit</h3>
-        <p class="room-body">
-          Privacy and behavior reviews of existing apps. Threat models, SDK reviews, encryption, data-minimization.
-        </p>
+        <p class="room-body">Privacy and behavior reviews of existing apps. Threat models, SDK reviews, encryption, data-minimization.</p>
       </div>
 
       <div class="room room--test">
         <div class="room-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M2 12c4-6 16-6 20 0M6 12c2-3 10-3 12 0M10 12c1-1 3-1 4 0"/><circle cx="12" cy="17" r="1.4" fill="white" stroke="none"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M2 12c4-6 16-6 20 0M6 12c2-3 10-3 12 0M10 12c1-1 3-1 4 0"/><circle cx="12" cy="17" r="1.4" fill="currentColor" stroke="none"/></svg>
         </div>
         <h3 class="room-title">Test</h3>
-        <p class="room-body">
-          What an app actually does on a real device, and what it sends where. Network traces and behavior reports.
-        </p>
+        <p class="room-body">What an app actually does on a real device, and what it sends where. Network traces and behavior reports.</p>
       </div>
 
     </div>
@@ -628,7 +568,7 @@ footer {
 
 <section class="section fade-up delay-4">
   <div class="wrap">
-    <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-sage);"></span>House rules</h2>
+    <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-moss); box-shadow: 0 0 12px rgba(110, 140, 104, 0.5);"></span>House rules</h2>
     <p class="section-sub">Defaults the studio holds, written down so a new client can disagree before signing.</p>
 
     <ol class="principles">
