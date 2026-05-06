@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bulonka Studio — colorful home (prototype)</title>
+<style>
+:root {
+  /* Warm five-color palette */
+  --bg: #FAF1E0;
+  --paper: #FFFAF0;
+  --paper-deep: #F4E8CE;
+
+  --c-terra: #C97B5C;       /* primary brand carry-over */
+  --c-terra-deep: #8B4A2E;
+  --c-ochre: #D4A04A;       /* warm yellow-orange */
+  --c-sage:  #7A9978;       /* muted garden green */
+  --c-sky:   #87B5D6;       /* soft window blue */
+  --c-rose:  #D4847A;       /* dusty rose accent */
+
+  --ink: #3E2C1A;
+  --ink-soft: #5C4A33;
+  --muted: #8A6F50;
+  --line: rgba(138, 111, 80, 0.18);
+
+  --rad-sm: 6px;
+  --rad: 14px;
+  --rad-lg: 26px;
+
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Sunlight: two soft glows that drift very slowly across the page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -10vh -20vw;
+  background:
+    radial-gradient(ellipse 50vmin 70vmin at 18% 25%, rgba(212, 160, 74, 0.22), transparent 55%),
+    radial-gradient(ellipse 36vmin 56vmin at 85% 75%, rgba(135, 181, 214, 0.18), transparent 55%);
+  pointer-events: none;
+  animation: sunlight 90s ease-in-out infinite alternate;
+  z-index: 0;
+}
+@keyframes sunlight {
+  0%   { transform: translate(-3vw, -2vh) rotate(-2deg); }
+  100% { transform: translate( 3vw,  2vh) rotate( 2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* Load-time staggered fade-in for sections — page comes alive on mount */
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 700ms var(--ease-soft) forwards;
+}
+.fade-up.delay-1 { animation-delay: 80ms; }
+.fade-up.delay-2 { animation-delay: 240ms; }
+.fade-up.delay-3 { animation-delay: 400ms; }
+.fade-up.delay-4 { animation-delay: 560ms; }
+.fade-up.delay-5 { animation-delay: 720ms; }
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; text-decoration-color: var(--c-terra); }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 720px) { .wrap { padding: 0 56px; } }
+
+/* Top bar */
+header { padding: 28px 0; }
+nav { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.005em;
+}
+.brand-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--c-terra);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 0 4px rgba(201, 123, 92, 0.20);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px  rgba(201, 123, 92, 0.20); }
+  50%      { box-shadow: 0 0 0 10px rgba(201, 123, 92, 0.06); }
+}
+.links { display: flex; gap: 24px; color: var(--ink-soft); font-size: 0.95rem; }
+.links a:hover { color: var(--ink); text-decoration: none; }
+
+/* Hero */
+.hero { padding: 56px 0 88px; position: relative; }
+.greeting {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  background: rgba(212, 160, 74, 0.18);
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+.greeting-wave {
+  display: inline-block;
+  animation: wave 2.4s ease-in-out infinite;
+  transform-origin: 70% 80%;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  20%      { transform: rotate(-12deg); }
+  40%      { transform: rotate( 14deg); }
+  60%      { transform: rotate( -8deg); }
+  80%      { transform: rotate(  4deg); }
+}
+h1 {
+  font-size: clamp(2.2rem, 5.2vw, 3.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+  max-width: 24ch;
+  color: var(--ink);
+}
+.accent {
+  background: linear-gradient(120deg, var(--c-terra) 0%, var(--c-ochre) 50%, var(--c-rose) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: gradient-breathe 14s ease-in-out infinite;
+}
+@keyframes gradient-breathe {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+.h-mark {
+  position: relative;
+  display: inline-block;
+}
+.h-mark::after {
+  content: '';
+  position: absolute;
+  left: -2px; right: -2px;
+  bottom: 6px;
+  height: 10px;
+  background: var(--c-sage);
+  opacity: 0.30;
+  z-index: -1;
+  border-radius: 2px;
+  transform: skewY(-1.5deg);
+}
+.lede {
+  max-width: 56ch;
+  color: var(--ink-soft);
+  font-size: 1.08rem;
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+.cta-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: var(--c-terra);
+  color: white;
+  padding: 14px 22px;
+  border-radius: var(--rad);
+  box-shadow: 0 4px 14px rgba(201, 123, 92, 0.30);
+  transition: transform 220ms var(--ease-bounce), box-shadow 200ms;
+}
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(201, 123, 92, 0.38);
+  text-decoration: none;
+}
+.cta-side {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+/* Spinning sun in hero corner */
+.hero-sun {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  width: 96px;
+  height: 96px;
+  opacity: 0.78;
+  animation: spin 80s linear infinite;
+  pointer-events: none;
+}
+.hero-sun circle { fill: var(--c-ochre); }
+.hero-sun line { stroke: var(--c-ochre); stroke-width: 3; stroke-linecap: round; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 720px) {
+  .hero-sun { width: 56px; height: 56px; top: 6px; right: 6px; }
+}
+
+/* Today block — personal touch with stamp */
+.today { padding: 16px 0 64px; position: relative; }
+
+/* Potted plant — sits next to the today card on desktop */
+.plant {
+  position: absolute;
+  right: 4%;
+  bottom: 32px;
+  width: 92px;
+  height: 130px;
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 980px) { .plant { display: block; } }
+.plant .leaf {
+  transform-origin: 50% 100%;
+  animation: leaf-wave 6s ease-in-out infinite;
+}
+.plant .leaf:nth-child(2) { animation-delay: -1.5s; }
+.plant .leaf:nth-child(3) { animation-delay: -3s; }
+.plant .leaf:nth-child(4) { animation-delay: -4.5s; }
+@keyframes leaf-wave {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate( 3deg); }
+}
+.today-card {
+  background: var(--paper);
+  border: 1.5px dashed rgba(122, 153, 120, 0.55);
+  border-radius: var(--rad-lg);
+  padding: 26px 28px;
+  max-width: 78ch;
+  position: relative;
+  transition: transform 250ms var(--ease-bounce);
+}
+.today-card:hover { transform: translateY(-2px) rotate(-0.25deg); }
+.today-stamp {
+  position: absolute;
+  top: -14px;
+  right: 24px;
+  background: var(--c-sage);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  transform: rotate(-3deg);
+  box-shadow: 0 3px 10px rgba(122, 153, 120, 0.28);
+}
+.today-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.today-text {
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.55;
+}
+.today-text em {
+  font-style: normal;
+  background: linear-gradient(transparent 60%, rgba(212, 160, 74, 0.32) 60%);
+  padding: 0 2px;
+}
+
+/* Sections */
+.section { padding: 64px 0; }
+.section-h {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.section-h-mark {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c-ochre);
+  flex-shrink: 0;
+  transform: translateY(-3px);
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin-bottom: 32px;
+  max-width: 56ch;
+}
+
+/* Window decoration — small framed sky panes that drift over the rooms section */
+.window-deco {
+  position: absolute;
+  top: 8px;
+  right: 6%;
+  width: 96px;
+  height: 110px;
+  pointer-events: none;
+  opacity: 0.85;
+  display: none;
+}
+@media (min-width: 980px) { .window-deco { display: block; } }
+.window-deco .sky {
+  fill: var(--c-sky);
+  animation: sky-drift 18s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes sky-drift {
+  0%   { transform: translateX(-2px) translateY(0px); }
+  100% { transform: translateX( 2px) translateY(2px); }
+}
+
+.section { position: relative; }
+
+/* Service rooms */
+.rooms { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 720px) { .rooms { grid-template-columns: repeat(3, 1fr); } }
+.room {
+  padding: 26px 24px 28px;
+  border-radius: var(--rad-lg);
+  transition: transform 280ms var(--ease-bounce);
+  position: relative;
+  overflow: hidden;
+}
+.room:hover { transform: translateY(-5px); }
+.room--build { background: linear-gradient(155deg, rgba(201, 123, 92, 0.16), rgba(201, 123, 92, 0.06) 80%); }
+.room--audit { background: linear-gradient(155deg, rgba(122, 153, 120, 0.16), rgba(122, 153, 120, 0.06) 80%); }
+.room--test  { background: linear-gradient(155deg, rgba(135, 181, 214, 0.20), rgba(135, 181, 214, 0.06) 80%); }
+.room-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--rad);
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  color: white;
+  transition: transform 350ms var(--ease-bounce);
+}
+.room:hover .room-icon { transform: rotate(-6deg) scale(1.04); }
+.room--build .room-icon { background: var(--c-terra); }
+.room--audit .room-icon { background: var(--c-sage); }
+.room--test  .room-icon { background: var(--c-sky); }
+.room-icon svg { width: 22px; height: 22px; stroke: white; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.room-title {
+  font-weight: 700;
+  font-size: 1.12rem;
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.room-body {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* House rules — soft list with rotating florette markers */
+.principles {
+  list-style: none;
+  max-width: 64ch;
+}
+.principles li {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 1rem;
+  color: var(--ink);
+}
+.principles li::before {
+  content: "✿";
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.principles li:nth-child(1)::before { color: var(--c-ochre); }
+.principles li:nth-child(2)::before { color: var(--c-sage); }
+.principles li:nth-child(3)::before { color: var(--c-terra); }
+.principles li:nth-child(4)::before { color: var(--c-sky); }
+.principles li:nth-child(5)::before { color: var(--c-rose); }
+
+/* Footer */
+footer {
+  padding: 40px 0 64px;
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+}
+.footer-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.signoff {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.signoff::before {
+  content: "— ";
+  color: var(--c-ochre);
+}
+
+::selection { background: rgba(201, 123, 92, 0.30); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Bulonka Studio</span>
+      </a>
+      <div class="links">
+        <a href="./work.html">Work</a>
+        <a href="./contact.html">Contact</a>
+        <a href="./night.html" title="night version" style="color: var(--c-terra);">☾</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero fade-up">
+  <div class="wrap">
+    <svg class="hero-sun" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="18"/>
+      <line x1="50" y1="6"  x2="50" y2="20"/>
+      <line x1="50" y1="80" x2="50" y2="94"/>
+      <line x1="6"  y1="50" x2="20" y2="50"/>
+      <line x1="80" y1="50" x2="94" y2="50"/>
+      <line x1="18" y1="18" x2="28" y2="28"/>
+      <line x1="72" y1="72" x2="82" y2="82"/>
+      <line x1="82" y1="18" x2="72" y2="28"/>
+      <line x1="28" y1="72" x2="18" y2="82"/>
+    </svg>
+
+    <span class="greeting">
+      <span class="greeting-wave" aria-hidden="true">👋</span>
+      Hi — come in
+    </span>
+
+    <h1>
+      A small mobile studio that
+      <span class="h-mark">respects</span>
+      the people who use what it ships — built with
+      <span class="accent">care, not analytics</span>.
+    </h1>
+
+    <p class="lede">
+      iOS and Android apps, end-to-end. Privacy audits for existing apps. On-device behavior testing. Currently a one-person studio, working from a quiet desk in Ukraine.
+    </p>
+
+    <div class="cta-row">
+      <a class="cta" href="mailto:yholiakh@gmail.com">Email yholiakh@gmail.com</a>
+      <span class="cta-side">replies usually inside a business day.</span>
+    </div>
+  </div>
+</section>
+
+<section class="today fade-up delay-1">
+  <div class="wrap">
+    <svg class="plant" viewBox="0 0 92 130" aria-hidden="true">
+      <!-- pot -->
+      <path d="M22 92 L70 92 L66 124 Q66 128 62 128 L30 128 Q26 128 26 124 Z" fill="var(--c-terra)"/>
+      <rect x="20" y="86" width="52" height="8" rx="2" fill="var(--c-terra-deep)"/>
+      <!-- soil -->
+      <ellipse cx="46" cy="92" rx="22" ry="3" fill="#3E2C1A" opacity="0.35"/>
+      <!-- leaves -->
+      <g class="leaf"><path d="M46 88 Q22 70 18 36 Q34 44 44 70 Z" fill="var(--c-sage)"/></g>
+      <g class="leaf"><path d="M46 86 Q70 64 78 30 Q60 42 50 70 Z" fill="var(--c-sage)" opacity="0.85"/></g>
+      <g class="leaf"><path d="M46 86 Q34 56 30 14 Q44 32 48 68 Z" fill="var(--c-sage)" opacity="0.7"/></g>
+      <g class="leaf"><path d="M46 86 Q56 60 62 22 Q50 40 48 68 Z" fill="var(--c-sage)" opacity="0.55"/></g>
+      <!-- a single ochre flower -->
+      <circle cx="22" cy="36" r="5" fill="var(--c-ochre)"/>
+      <circle cx="22" cy="36" r="2" fill="var(--c-rose)"/>
+    </svg>
+    <div class="today-card">
+      <div class="today-stamp">This week</div>
+      <p class="today-label">On the workbench</p>
+      <p class="today-text">
+        Auditing what a health-tracking iOS app actually <em>sends home</em> — third-party SDKs, telemetry, and the gap between privacy policy and on-device behavior.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section fade-up delay-2" id="work">
+  <div class="wrap">
+    <svg class="window-deco" viewBox="0 0 96 110" aria-hidden="true">
+      <!-- frame -->
+      <rect x="2" y="2" width="92" height="106" rx="6" fill="var(--paper-deep)" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <!-- 4 sky panes -->
+      <rect class="sky" x="8"  y="8"  width="38" height="46" rx="2"/>
+      <rect class="sky" x="50" y="8"  width="38" height="46" rx="2" opacity="0.85"/>
+      <rect class="sky" x="8"  y="58" width="38" height="44" rx="2" opacity="0.9"/>
+      <rect class="sky" x="50" y="58" width="38" height="44" rx="2" opacity="0.75"/>
+      <!-- mullion -->
+      <line x1="48" y1="6" x2="48" y2="104" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <line x1="4"  y1="56" x2="92" y2="56" stroke="var(--c-terra-deep)" stroke-width="2"/>
+      <!-- a tiny sun in the upper-left pane -->
+      <circle cx="20" cy="22" r="4" fill="var(--c-ochre)"/>
+    </svg>
+    <h2 class="section-h"><span class="section-h-mark"></span>Three rooms in this studio</h2>
+    <p class="section-sub">Each one is something the studio has shipped before — paid, on a real project, end to end.</p>
+
+    <div class="rooms">
+
+      <div class="room room--build">
+        <div class="room-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V8l6-4 6 4v13M10 13h4M10 17h4"/></svg>
+        </div>
+        <h3 class="room-title">Build</h3>
+        <p class="room-body">
+          Full apps, idea to App Store. iOS native, Android native, and KMP when it earns its keep.
+        </p>
+      </div>
+
+      <div class="room room--audit">
+        <div class="room-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></svg>
+        </div>
+        <h3 class="room-title">Audit</h3>
+        <p class="room-body">
+          Privacy and behavior reviews of existing apps. Threat models, SDK reviews, encryption, data-minimization.
+        </p>
+      </div>
+
+      <div class="room room--test">
+        <div class="room-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2 12c4-6 16-6 20 0M6 12c2-3 10-3 12 0M10 12c1-1 3-1 4 0"/><circle cx="12" cy="17" r="1.4" fill="white" stroke="none"/></svg>
+        </div>
+        <h3 class="room-title">Test</h3>
+        <p class="room-body">
+          What an app actually does on a real device, and what it sends where. Network traces and behavior reports.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section fade-up delay-3">
+  <div class="wrap">
+    <h2 class="section-h"><span class="section-h-mark" style="background: var(--c-sage);"></span>House rules</h2>
+    <p class="section-sub">Defaults the studio holds, written down so a new client can disagree before signing.</p>
+
+    <ol class="principles">
+      <li>No third-party SDK ships without explicit approval.</li>
+      <li>Analytics is something to discuss in scope. There is no default.</li>
+      <li>Data minimization is in the spec from day one.</li>
+      <li>Native when it serves the privacy model. Cross-platform when it serves the user.</li>
+      <li>Gambling and adult-content projects are declined.</li>
+    </ol>
+  </div>
+</section>
+
+<footer id="contact" class="fade-up delay-4">
+  <div class="wrap">
+    <div class="footer-row">
+      <span>© 2026 Bulonka Studio &nbsp;·&nbsp; <a href="/privacy/">Privacy</a></span>
+      <span class="signoff">Made with care in Ukraine</span>
+      <span><a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

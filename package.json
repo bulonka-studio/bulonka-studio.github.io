@@ -1,21 +1,30 @@
 {
-  "name": "home",
+  "name": "bulonka-studio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "check:no-tracking": "node scripts/check-no-tracking.mjs",
+    "check:no-react": "node scripts/check-no-react.mjs",
+    "check:no-purple": "node scripts/check-no-purple.mjs",
+    "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "check": "npm run test:run && npm run build && npm run check:no-react && npm run check:no-tracking && npm run check:no-purple && npm run check:bundle-size"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
     "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.7"
+    "jsdom": "^25.0.1",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.9"
   }
 }

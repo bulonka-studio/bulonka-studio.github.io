@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bulonka-studio.com/sitemap.xml
