@@ -23,6 +23,7 @@ Vue 3 + Vite multi-page static site. **No SPA router.** Each route is a real HTM
 - `index.html`              → `dist/index.html`              (mounts `pages/Home.vue`)
 - `work/index.html`         → `dist/work/index.html`         (mounts `pages/Work.vue`)
 - `contact/index.html`      → `dist/contact/index.html`      (mounts `pages/Contact.vue`)
+- `privacy/index.html`      → `dist/privacy/index.html`      (static HTML — no Vue mount)
 
 Each HTML file imports its own tiny entry script in `src/entries/`. Each entry imports the same `src/App.vue` shell (`<Skip-link> <Nav> <PageSlot> <Footer>`) and passes the appropriate page component as a prop.
 
@@ -55,6 +56,7 @@ The Vite `base` is controlled by the `GITHUB_PAGES_BASE` env var (`vite.config.j
 
 ## Static assets
 
-- Anything in `public/` is copied verbatim into `dist/` at build time and is **not** processed by Vite. `public/privacy/index.html` is a hand-maintained standalone page (privacy policy) — it is not part of the React/Vue bundle.
+- Anything in `public/` is copied verbatim into `dist/` at build time and is **not** processed by Vite.
+- `privacy/index.html` (repo root) is a hand-maintained static page wired as a Vite input. No Vue, no entry script — it flows through the build only so the base-URL rewriting stays consistent with the other pages.
 - `public/CNAME` must contain only `bulonka-studio.com`. GitHub Pages reads this file to bind the custom domain; deleting or modifying it will break the live domain.
 - `files/` (repo root, not `public/`) holds source brand assets (icons, preview image) and is **not** shipped to production.
