@@ -14,8 +14,9 @@
     "test:run": "vitest run",
     "check:no-tracking": "node scripts/check-no-tracking.mjs",
     "check:no-react": "node scripts/check-no-react.mjs",
+    "check:no-purple": "node scripts/check-no-purple.mjs",
     "check:bundle-size": "node scripts/check-bundle-size.mjs",
-    "check": "npm run test:run && npm run build && npm run check:no-react && npm run check:no-tracking && npm run check:bundle-size"
+    "check": "npm run test:run && npm run build && npm run check:no-react && npm run check:no-tracking && npm run check:no-purple && npm run check:bundle-size"
   },
   "dependencies": {
     "vue": "^3.5.13"
