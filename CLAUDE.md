@@ -11,7 +11,7 @@ npm run build      # production build to dist/
 npm run preview    # serve the built dist/ locally to verify before pushing
 npm run test       # vitest in watch mode
 npm run test:run   # vitest one-shot
-npm run check      # full verification: tests + build + no-react + no-tracking + bundle-size
+npm run check      # full verification: tests + build + no-react + no-tracking + no-purple + bundle-size
 ```
 
 The build is the only correctness signal for markup/styling; `vitest` covers the `useTheme` composable; `npm run check` enforces the privacy/perf budgets from the design spec.
@@ -35,9 +35,17 @@ Each HTML file imports its own tiny entry script in `src/entries/`. Each entry i
 **Privacy / perf invariants enforced by `npm run check`:**
 - Zero references to React in package.json or any source file.
 - Zero references to known tracking hosts (Google Analytics/Fonts, GTM, Facebook, Segment, Mixpanel, Hotjar, Amplitude, Sentry, Cloudflare Insights) anywhere in `dist/`.
+- Zero references to the retired Material 3 purple palette (`BB86FC`, `6750A4`, `D4A8FF`) or the literal word `purple`. Enforced by `scripts/check-no-purple.mjs`.
 - Per-page bundle budget: ≤ 50 kB JS gzipped, ≤ 15 kB CSS gzipped.
 
 **No web fonts loaded** — system font stack only. Adding `link rel="preconnect"` to a font CDN will fail `check:no-tracking`.
+
+**Surface design (palette, typography, copy, motion):**
+- Canonical spec: `docs/superpowers/specs/2026-04-29-colorful-home-design.md` — supersedes §5–§6 of the 2026-04-27 spec.
+- Brand color: `#8B4A2E` (deep terracotta) primary, `#C97B5C` light companion. Five accent tokens: ochre, sage, sky, rose (day) plus ember (night-only).
+- Components `PhoneMockup` and `ServiceCard` no longer exist. Decorations are inline SVG in page templates: sun (Home day), lamp (Home night), plant, window, envelope (Work), mailbox (Contact).
+- All animation is CSS keyframes, gated by `prefers-reduced-motion: reduce` in `src/styles/base.css`.
+- Copy guidelines (no rhythmic tricolons, no "X — not Y" reversals, no arrow CTAs, em-dash budget, sentence-case labels) live in spec §4. Two scoped exceptions: the hero greeting strings ("Hi — come in", "The lamp is on — come in") and the today-on-workbench block use a softer voice.
 
 ## Deployment
 
