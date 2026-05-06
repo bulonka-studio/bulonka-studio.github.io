@@ -4,9 +4,7 @@ import ThemeToggle from './ThemeToggle.vue';
 
 const path = ref('/');
 
-onMounted(() => {
-  path.value = window.location.pathname;
-});
+onMounted(() => { path.value = window.location.pathname; });
 
 function isActive(prefix) {
   if (prefix === '/work') return path.value.startsWith('/work');
@@ -19,7 +17,7 @@ function isActive(prefix) {
   <header class="nav-bar">
     <div class="page nav-inner">
       <a href="/" class="brand" aria-label="Bulonka Studio — home">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-dot" aria-hidden="true"></span>
         <span class="brand-name">Bulonka Studio</span>
       </a>
       <nav aria-label="Primary">
@@ -33,7 +31,6 @@ function isActive(prefix) {
 
 <style scoped>
 .nav-bar {
-  border-bottom: 1px solid var(--outline);
   background: var(--background);
   position: sticky;
   top: 0;
@@ -51,23 +48,30 @@ function isActive(prefix) {
   align-items: center;
   gap: var(--sp-2);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
+  letter-spacing: -0.005em;
   color: var(--on-surface);
 }
-.brand-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
-  background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--primary) 70%, white), var(--primary) 60%, color-mix(in srgb, var(--primary) 60%, black));
+.brand-dot {
+  width: 14px;
+  height: 14px;
+  background: var(--primary-light);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-light) 22%, transparent);
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px  color-mix(in srgb, var(--primary-light) 22%, transparent); }
+  50%      { box-shadow: 0 0 0 10px color-mix(in srgb, var(--primary-light) 6%, transparent); }
 }
 nav { display: inline-flex; align-items: center; gap: var(--sp-3); }
 .nav-link {
-  font-size: 0.85rem;
-  color: var(--on-surface-muted);
-  padding: 0.4rem 0.2rem;
-  border-bottom: 1px solid transparent;
-  transition: color var(--motion-fast) var(--motion-ease), border-bottom-color var(--motion-fast) var(--motion-ease);
+  font-size: 0.95rem;
+  color: var(--on-surface-soft);
+  padding: 0.4rem 0.4rem;
+  border-bottom: 2px solid transparent;
+  transition: color var(--motion-fast) var(--motion-soft), border-bottom-color var(--motion-fast) var(--motion-soft);
 }
 .nav-link:hover { color: var(--on-surface); }
-.nav-link--active { color: var(--primary); border-bottom-color: var(--primary); }
+.nav-link--active { color: var(--primary); border-bottom-color: var(--primary-light); font-weight: 600; }
 </style>
