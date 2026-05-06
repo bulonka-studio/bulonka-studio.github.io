@@ -7,6 +7,7 @@ html, body { height: 100%; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 a { color: inherit; text-decoration: none; }
+ol, ul { list-style: none; }
 
 /* Body */
 html {
@@ -19,33 +20,70 @@ html {
 body {
   background: var(--background);
   color: var(--on-surface);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  transition: background var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background var(--motion-fast) var(--motion-soft), color var(--motion-fast) var(--motion-soft);
+  position: relative;
 }
 
-/* Type scale — utility classes; apply to elements directly */
-.t-display { font-size: 2.4rem; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; }
+/* Body-level sunlight gradient: two glows that drift very slowly. Theme-aware via tokens. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -10vh -20vw;
+  background:
+    radial-gradient(ellipse 50vmin 70vmin at 18% 25%, var(--glow-1), transparent 55%),
+    radial-gradient(ellipse 36vmin 56vmin at 85% 75%, var(--glow-2), transparent 55%);
+  pointer-events: none;
+  animation: sunlight 90s ease-in-out infinite alternate;
+  z-index: 0;
+}
+@keyframes sunlight {
+  0%   { transform: translate(-3vw, -2vh) rotate(-2deg); }
+  100% { transform: translate( 3vw,  2vh) rotate( 2deg); }
+}
+
+/* Night-only ember flicker overlay (var --glow-ember undefined in day → renders transparent). */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 50vmin 70vmin at 22% 28%, var(--glow-ember, transparent), transparent 50%);
+  pointer-events: none;
+  animation: flicker 6s steps(1, end) infinite;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+@keyframes flicker {
+  0%, 22%, 27%, 60%, 65%, 100% { opacity: 0.95; }
+  23%, 26%                      { opacity: 0.55; }
+  61%, 64%                      { opacity: 0.70; }
+  90%, 93%                      { opacity: 0.80; }
+}
+
+/* Type scale */
+.t-display { font-size: 2.4rem; line-height: 1.05; font-weight: 600; letter-spacing: -0.025em; }
 .t-h1      { font-size: 1.7rem; line-height: 1.15; font-weight: 600; }
 .t-h2      { font-size: 1.2rem; line-height: 1.25; font-weight: 600; }
-.t-body    { font-size: 0.95rem; line-height: 1.55; font-weight: 400; }
+.t-body    { font-size: 1rem;   line-height: 1.6;  font-weight: 400; }
 .t-small   { font-size: 0.78rem; line-height: 1.5;  font-weight: 400; color: var(--on-surface-muted); }
-.t-label   { font-size: 0.7rem;  line-height: 1.4;  font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); }
+.t-label   { font-size: 0.78rem; line-height: 1.4;  font-weight: 500; color: var(--on-surface-muted); }
 
 @media (min-width: 720px) {
-  .t-display { font-size: 3rem; }
+  .t-display { font-size: clamp(2.4rem, 5vw, 3.4rem); }
   .t-h1      { font-size: 2.1rem; }
 }
 
 /* Focus */
 :focus { outline: none; }
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--primary-light);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Skip-to-content link — visible only on focus */
+/* Skip-to-content */
 .skip-link {
   position: absolute;
   left: var(--sp-3);
@@ -56,7 +94,7 @@ body {
   border-radius: var(--radius-pill);
   font-weight: 600;
   transform: translateY(-200%);
-  transition: transform var(--motion-fast) var(--motion-ease);
+  transition: transform var(--motion-fast) var(--motion-soft);
   z-index: 100;
 }
 .skip-link:focus-visible { transform: translateY(0); }
@@ -67,26 +105,88 @@ body {
   margin: 0 auto;
   padding-left: var(--page-pad-mobile);
   padding-right: var(--page-pad-mobile);
+  position: relative;
+  z-index: 1;
 }
+@media (min-width: 720px) { .page { padding-left: var(--page-pad-tablet); padding-right: var(--page-pad-tablet); } }
+@media (min-width: 1080px) { .page { padding-left: var(--page-pad-desktop); padding-right: var(--page-pad-desktop); } }
+
+/* Sections */
+.section { padding-top: var(--sp-7); padding-bottom: var(--sp-7); position: relative; }
+@media (min-width: 720px) { .section { padding-top: var(--sp-8); padding-bottom: var(--sp-8); } }
+
+/* Load-time staggered fade-in */
+.fade-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 700ms var(--motion-soft) forwards;
+}
+.fade-up.delay-1 { animation-delay: 80ms; }
+.fade-up.delay-2 { animation-delay: 240ms; }
+.fade-up.delay-3 { animation-delay: 400ms; }
+.fade-up.delay-4 { animation-delay: 560ms; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+/* Spec sheet — used on /work (NDA cards) and /contact (meta chips reuse a variant) */
+.spec { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 80ch; }
+.spec-key {
+  padding: var(--sp-4) 0 var(--sp-2);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  border-top: 1px solid var(--outline);
+}
+.spec-val {
+  padding: 0 0 var(--sp-4);
+  color: var(--on-surface-soft);
+  max-width: 60ch;
+}
+.spec :first-child.spec-key { border-top: none; padding-top: 0; }
 @media (min-width: 720px) {
-  .page { padding-left: var(--page-pad-tablet); padding-right: var(--page-pad-tablet); }
-}
-@media (min-width: 1080px) {
-  .page { padding-left: var(--page-pad-desktop); padding-right: var(--page-pad-desktop); }
+  .spec { grid-template-columns: 14ch 1fr; column-gap: var(--sp-6); row-gap: 0; }
+  .spec-key { padding: var(--sp-4) 0; border-top: 1px solid var(--outline); }
+  .spec-val { padding: var(--sp-4) 0; border-top: 1px solid var(--outline); }
+  .spec :first-child.spec-key,
+  .spec :first-child.spec-key + .spec-val { border-top: 1px solid var(--outline); }
 }
 
-/* Sections — scroll-margin-top so the sticky Nav doesn't occlude :target / smooth-scroll landings. */
-.section { padding-top: var(--sp-7); padding-bottom: var(--sp-7); scroll-margin-top: 64px; }
-@media (min-width: 720px) {
-  .section { padding-top: var(--sp-8); padding-bottom: var(--sp-8); }
+/* Principles list — used on /home and as the /contact checklist */
+.numbered {
+  list-style: none;
+  counter-reset: p;
+  max-width: 64ch;
+  padding-left: 0;
 }
+.numbered > li {
+  counter-increment: p;
+  padding: var(--sp-3) 0;
+  border-bottom: 1px solid var(--outline);
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: var(--sp-3);
+  align-items: baseline;
+  font-size: 1rem;
+}
+.numbered > li::before {
+  content: "✿";
+  font-size: 1.15rem;
+  line-height: 1;
+}
+/* Five-color florette cycle */
+.numbered--cycle > li:nth-child(1)::before { color: var(--accent-ochre); }
+.numbered--cycle > li:nth-child(2)::before { color: var(--accent-sage); }
+.numbered--cycle > li:nth-child(3)::before { color: var(--primary-light); }
+.numbered--cycle > li:nth-child(4)::before { color: var(--accent-sky); }
+.numbered--cycle > li:nth-child(5)::before { color: var(--accent-rose); }
 
-/* Reduced motion */
+/* Reduced motion — kill all animation/transition */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    transition-duration: 0s !important;
-    animation-duration: 0s !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  body::before, body::after { animation: none !important; }
+  .fade-up { opacity: 1 !important; transform: none !important; }
 }
