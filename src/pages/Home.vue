@@ -55,7 +55,7 @@ const principles = [
     </p>
 
     <div class="hero-cta-row">
-      <a class="cta" href="mailto:yholiakh@gmail.com">Email yholiakh@gmail.com</a>
+      <a class="cta" href="mailto:contact@bulonka-studio.com">Email contact@bulonka-studio.com</a>
       <span class="t-small cta-side">replies usually inside a business day.</span>
     </div>
   </section>

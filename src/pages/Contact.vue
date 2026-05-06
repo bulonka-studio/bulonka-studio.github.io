@@ -45,7 +45,7 @@ const checklist = [
 
       <div class="email-card">
         <p class="t-label email-label">Write to</p>
-        <a class="email-link" href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a>
+        <a class="email-link" href="mailto:contact@bulonka-studio.com">contact@bulonka-studio.com</a>
         <p class="t-small email-side">Opens your mail app. The flag goes up when something arrives.</p>
       </div>
     </div>

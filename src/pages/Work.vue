@@ -47,7 +47,7 @@ const ndaSheet = [
     </dl>
 
     <div class="cta-row">
-      <a class="cta" href="mailto:yholiakh@gmail.com">Email yholiakh@gmail.com</a>
+      <a class="cta" href="mailto:contact@bulonka-studio.com">Email contact@bulonka-studio.com</a>
       <span class="t-small cta-side">to schedule a walk-through.</span>
     </div>
   </section>

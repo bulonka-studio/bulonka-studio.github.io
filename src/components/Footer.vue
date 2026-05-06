@@ -3,7 +3,7 @@
     <div class="page footer-inner">
       <span>© 2026 Bulonka Studio &nbsp;·&nbsp; <a href="/privacy/">Privacy</a></span>
       <span class="signoff">Made with care in Ukraine</span>
-      <span><a href="mailto:yholiakh@gmail.com">yholiakh@gmail.com</a></span>
+      <span><a href="mailto:contact@bulonka-studio.com">contact@bulonka-studio.com</a></span>
     </div>
   </footer>
 </template>
