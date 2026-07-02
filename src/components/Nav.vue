@@ -3,8 +3,12 @@ import { ref, onMounted } from 'vue';
 import ThemeToggle from './ThemeToggle.vue';
 
 const path = ref('/');
+const mounted = ref(false);
 
-onMounted(() => { path.value = window.location.pathname; });
+onMounted(() => {
+  path.value = window.location.pathname;
+  mounted.value = true;
+});
 
 function isActive(prefix) {
   if (prefix === '/work') return path.value.startsWith('/work');
@@ -23,7 +27,8 @@ function isActive(prefix) {
       <nav aria-label="Primary">
         <a href="/work/" :class="['nav-link', { 'nav-link--active': isActive('/work') }]">Work</a>
         <a href="/contact/" :class="['nav-link', { 'nav-link--active': isActive('/contact') }]">Contact</a>
-        <ThemeToggle />
+        <ThemeToggle v-if="mounted" />
+        <span v-else class="toggle-slot" aria-hidden="true"></span>
       </nav>
     </div>
   </header>
@@ -74,4 +79,6 @@ nav { display: inline-flex; align-items: center; gap: var(--sp-3); }
 }
 .nav-link:hover { color: var(--on-surface); }
 .nav-link--active { color: var(--primary); border-bottom-color: var(--primary-light); font-weight: 600; }
+/* Reserves the toggle's box before client mount / without JS — no layout shift. */
+.toggle-slot { display: inline-block; width: 44px; height: 44px; }
 </style>
