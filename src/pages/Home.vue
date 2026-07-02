@@ -74,23 +74,26 @@ const principles = [
   <section class="section page today fade-up delay-1">
     <div class="today-card">
       <div class="today-stamp">This week</div>
-      <p class="t-label today-label">On the workbench</p>
+      <p class="t-mono today-label">On the workbench</p>
       <p class="today-text">
         Auditing what a health-tracking iOS app actually <em>sends home</em> &mdash; third-party SDKs, telemetry, and the gap between privacy policy and on-device behavior.
         <!-- TBD: founder updates this string as actual current work changes — see spec §10.3 -->
       </p>
     </div>
-    <!-- Potted plant decoration (desktop only) -->
     <svg class="plant" viewBox="0 0 92 130" aria-hidden="true">
-      <path d="M22 92 L70 92 L66 124 Q66 128 62 128 L30 128 Q26 128 26 124 Z" fill="var(--primary-light)"/>
-      <rect x="20" y="86" width="52" height="8" rx="2" fill="var(--primary)"/>
-      <ellipse cx="46" cy="92" rx="22" ry="3" fill="var(--on-surface)" opacity="0.35"/>
-      <g class="leaf"><path d="M46 88 Q22 70 18 36 Q34 44 44 70 Z" fill="var(--accent-sage)"/></g>
-      <g class="leaf"><path d="M46 86 Q70 64 78 30 Q60 42 50 70 Z" fill="var(--accent-sage)" opacity="0.85"/></g>
-      <g class="leaf"><path d="M46 86 Q34 56 30 14 Q44 32 48 68 Z" fill="var(--accent-sage)" opacity="0.7"/></g>
-      <g class="leaf"><path d="M46 86 Q56 60 62 22 Q50 40 48 68 Z" fill="var(--accent-sage)" opacity="0.55"/></g>
-      <circle cx="22" cy="36" r="5" fill="var(--accent-ochre)"/>
-      <circle cx="22" cy="36" r="2" fill="var(--accent-rose)"/>
+      <path d="M26 94 L66 94 L61 124 Q60 128 56 128 L36 128 Q32 128 31 124 Z" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+      <line x1="22" y1="92" x2="70" y2="92" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+      <g class="leaf">
+        <path d="M46 90 Q30 70 24 42" fill="none" stroke="var(--accent-sage)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M24 42 Q34 50 38 64" fill="none" stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <g class="leaf">
+        <path d="M46 90 Q62 66 70 36" fill="none" stroke="var(--accent-sage)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M70 36 Q58 46 54 62" fill="none" stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <g class="leaf"><path d="M46 90 Q42 60 36 20" fill="none" stroke="var(--accent-sage)" stroke-width="2.5" stroke-linecap="round"/></g>
+      <g class="leaf"><path d="M46 90 Q52 64 58 30" fill="none" stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round"/></g>
+      <circle cx="24" cy="38" r="5" fill="var(--accent-ochre)"/>
     </svg>
   </section>
 
@@ -254,20 +257,23 @@ const principles = [
   50%      { background-position: 100% 50%; }
 }
 
-/* Today block */
-.today { padding-top: var(--sp-3); padding-bottom: var(--sp-7); }
+/* Today block — card and plant share the grid; the plant perches on the card edge */
+.today { padding-top: 0; padding-bottom: var(--sp-7); display: grid; grid-template-columns: 1fr; }
+@media (min-width: 720px) {
+  .today { grid-template-columns: minmax(0, 72ch) auto; align-items: end; }
+}
 .today-card {
   background: var(--surface);
   border: 1.5px dashed color-mix(in srgb, var(--accent-sage) 55%, transparent);
   border-radius: var(--radius-lg);
   padding: var(--sp-5) var(--sp-5);
-  max-width: 78ch;
   position: relative;
   transition: transform 250ms var(--motion-bounce);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--edge-light), var(--shadow-card);
 }
 .today-card:hover { transform: translateY(-2px) rotate(-0.25deg); }
 .today-stamp {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   position: absolute;
   top: -14px; right: var(--sp-4);
   background: var(--accent-sage);
@@ -289,20 +295,14 @@ const principles = [
   padding: 0 2px;
 }
 
-.plant {
-  position: absolute;
-  right: 4%;
-  bottom: var(--sp-5);
-  width: 92px;
-  height: 130px;
-  pointer-events: none;
-  display: none;
+.plant { width: 64px; height: 90px; justify-self: end; margin-top: calc(-1 * var(--sp-4)); }
+@media (min-width: 720px) {
+  .plant { width: 92px; height: 130px; margin: 0 0 0 calc(-1 * var(--sp-4)); }
 }
-@media (min-width: 980px) { .plant { display: block; } }
-.plant .leaf { transform-origin: 50% 100%; animation: leaf-wave 6s ease-in-out infinite; }
-.plant .leaf:nth-child(2) { animation-delay: -1.5s; }
-.plant .leaf:nth-child(3) { animation-delay: -3s; }
-.plant .leaf:nth-child(4) { animation-delay: -4.5s; }
+.plant .leaf { transform-box: fill-box; transform-origin: 50% 100%; animation: leaf-wave 6s ease-in-out infinite; }
+.plant .leaf:nth-of-type(2) { animation-delay: -1.5s; }
+.plant .leaf:nth-of-type(3) { animation-delay: -3s; }
+.plant .leaf:nth-of-type(4) { animation-delay: -4.5s; }
 @keyframes leaf-wave { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 
 /* Three rooms */
