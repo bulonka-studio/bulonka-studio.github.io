@@ -150,7 +150,6 @@ html {
 .t-h2      { font-size: 1.25rem; line-height: 1.25; font-weight: 600; }
 .t-body    { font-size: 1rem;   line-height: 1.6;  font-weight: 400; }
 .t-small   { font-size: 0.78rem; line-height: 1.5;  font-weight: 400; color: var(--on-surface-muted); }
-.t-label   { font-size: 0.78rem; line-height: 1.4;  font-weight: 500; color: var(--on-surface-muted); }
 .t-mono    {
   font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   font-size: 0.75rem;
