@@ -82,5 +82,6 @@ nav { display: inline-flex; align-items: center; gap: var(--sp-3); }
 }
 .nav-link:hover { color: var(--on-surface); background-size: 100% 2px; }
 .nav-link--active { color: var(--primary); font-weight: 600; background-size: 100% 2px; }
+/* Reserves the toggle's box before client mount / without JS — no layout shift. */
 .toggle-slot { display: inline-block; width: 44px; height: 44px; }
 </style>

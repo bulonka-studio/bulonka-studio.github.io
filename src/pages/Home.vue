@@ -11,38 +11,7 @@ const principles = [
 <template>
   <!-- Hero: the window is the room's light source in both themes -->
   <section class="section page hero fade-up">
-    <svg class="window-scene" viewBox="0 0 200 250" aria-hidden="true">
-      <!-- frame + sill -->
-      <rect x="8" y="8" width="184" height="216" rx="10" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
-      <!-- panes: the piece's filled accent; night tint comes from the token swap -->
-      <rect class="ws-pane" x="20"  y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.9"/>
-      <rect class="ws-pane" x="104" y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.75"/>
-      <rect class="ws-pane" x="20"  y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.8"/>
-      <rect class="ws-pane" x="104" y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.65"/>
-      <line x1="100" y1="10" x2="100" y2="222" stroke="var(--primary)" stroke-width="2"/>
-      <line x1="10" y1="118" x2="190" y2="118" stroke="var(--primary)" stroke-width="2"/>
-      <line x1="0" y1="236" x2="200" y2="236" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- day: sun ring seen through the upper-right pane -->
-      <g class="ws-sun">
-        <circle cx="142" cy="58" r="17" fill="none" stroke="var(--accent-ochre)" stroke-width="2.5"/>
-        <g stroke="var(--accent-ochre)" stroke-width="2.5" stroke-linecap="round">
-          <line x1="142" y1="30" x2="142" y2="38"/><line x1="142" y1="78" x2="142" y2="86"/>
-          <line x1="114" y1="58" x2="122" y2="58"/><line x1="162" y1="58" x2="170" y2="58"/>
-          <line x1="122" y1="38" x2="128" y2="44"/><line x1="156" y1="72" x2="162" y2="78"/>
-          <line x1="162" y1="38" x2="156" y2="44"/><line x1="128" y1="72" x2="122" y2="78"/>
-        </g>
-      </g>
-      <!-- night: the lamp stands in front of the dark window -->
-      <g class="ws-lamp">
-        <ellipse class="ws-glow" cx="100" cy="150" rx="52" ry="48"/>
-        <path d="M76 128 L124 128 L116 158 L84 158 Z" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
-        <ellipse class="ws-bulb" cx="100" cy="163" rx="9" ry="7"/>
-        <line x1="100" y1="158" x2="100" y2="216" stroke="var(--primary)" stroke-width="2.5"/>
-        <path d="M78 224 Q100 214 122 224" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
-      </g>
-    </svg>
-
-    <div class="hero-text">
+    <div class="hero-top">
       <span class="greeting greeting--day">
         <span class="wave" aria-hidden="true">👋</span>
         Hi — come in
@@ -51,7 +20,38 @@ const principles = [
         <span class="flame" aria-hidden="true">🕯</span>
         The lamp is on — come in
       </span>
-
+      <svg class="window-scene" viewBox="0 0 200 250" aria-hidden="true">
+        <!-- frame + sill -->
+        <rect x="8" y="8" width="184" height="216" rx="10" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
+        <!-- panes: the piece's filled accent; night tint comes from the token swap -->
+        <rect class="ws-pane" x="20"  y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.9"/>
+        <rect class="ws-pane" x="104" y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.75"/>
+        <rect class="ws-pane" x="20"  y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.8"/>
+        <rect class="ws-pane" x="104" y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.65"/>
+        <line x1="100" y1="10" x2="100" y2="222" stroke="var(--primary)" stroke-width="2"/>
+        <line x1="10" y1="118" x2="190" y2="118" stroke="var(--primary)" stroke-width="2"/>
+        <line x1="0" y1="236" x2="200" y2="236" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- day: sun ring seen through the upper-right pane -->
+        <g class="ws-sun">
+          <circle cx="142" cy="58" r="17" fill="none" stroke="var(--accent-ochre)" stroke-width="2.5"/>
+          <g stroke="var(--accent-ochre)" stroke-width="2.5" stroke-linecap="round">
+            <line x1="142" y1="30" x2="142" y2="38"/><line x1="142" y1="78" x2="142" y2="86"/>
+            <line x1="114" y1="58" x2="122" y2="58"/><line x1="162" y1="58" x2="170" y2="58"/>
+            <line x1="122" y1="38" x2="128" y2="44"/><line x1="156" y1="72" x2="162" y2="78"/>
+            <line x1="162" y1="38" x2="156" y2="44"/><line x1="128" y1="72" x2="122" y2="78"/>
+          </g>
+        </g>
+        <!-- night: the lamp stands in front of the dark window -->
+        <g class="ws-lamp">
+          <ellipse class="ws-glow" cx="100" cy="150" rx="52" ry="48"/>
+          <path d="M76 128 L124 128 L116 158 L84 158 Z" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+          <ellipse class="ws-bulb" cx="100" cy="163" rx="9" ry="7"/>
+          <line x1="100" y1="158" x2="100" y2="216" stroke="var(--primary)" stroke-width="2.5"/>
+          <path d="M78 224 Q100 214 122 224" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-text">
       <h1 class="t-display hero-headline">
         A small mobile studio that
         <span class="h-mark">respects</span>
@@ -146,23 +146,29 @@ const principles = [
 </template>
 
 <style scoped>
-/* Hero — asymmetric at >=720px; small in-flow window above the text on mobile */
+/* Hero — mobile: greeting and window share the top row; desktop: two columns
+   via display:contents so hero-top's children become grid items */
 .hero {
-  padding-top: var(--sp-6);
+  padding-top: var(--sp-4);
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: var(--sp-4);
-  align-items: start;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2);
 }
-.hero-text { grid-row: 2; grid-column: 1 / -1; }
-.window-scene { grid-column: 2; width: 118px; height: auto; }
+.hero-top { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); }
+.window-scene { width: 84px; height: auto; flex: none; }
 @media (min-width: 720px) {
-  .hero { grid-template-columns: 1.15fr 0.85fr; gap: var(--sp-6); align-items: center; }
-  .hero-text { grid-row: 1; grid-column: 1; }
-  .window-scene { width: min(100%, 300px); justify-self: end; }
+  .hero { grid-template-columns: 1.15fr 0.85fr; grid-template-rows: auto 1fr; column-gap: var(--sp-6); padding-top: var(--sp-6); }
+  .hero-top { display: contents; }
+  .greeting { grid-column: 1; grid-row: 1; justify-self: start; }
+  .hero-text { grid-column: 1; grid-row: 2; }
+  .window-scene { grid-column: 2; grid-row: 1 / 3; align-self: center; justify-self: end; width: min(100%, 300px); }
 }
-.hero-headline { margin-top: var(--sp-3); margin-bottom: var(--sp-4); max-width: 24ch; }
-.hero-lede { color: var(--on-surface-soft); max-width: 56ch; font-size: 1.08rem; margin-bottom: var(--sp-5); }
+.hero-headline { margin-top: var(--sp-2); margin-bottom: var(--sp-3); max-width: 24ch; }
+.hero-lede { color: var(--on-surface-soft); max-width: 56ch; font-size: 1rem; margin-bottom: var(--sp-4); }
+@media (min-width: 720px) {
+  .hero-headline { margin-top: var(--sp-3); margin-bottom: var(--sp-4); }
+  .hero-lede { font-size: 1.08rem; margin-bottom: var(--sp-5); }
+}
 
 /* Window scene animation + day/night state */
 .ws-pane { animation: sky-drift 18s ease-in-out infinite alternate; }
@@ -204,7 +210,7 @@ const principles = [
   padding: 7px 14px;
   border-radius: var(--radius-pill);
   font-weight: 500;
-  margin-bottom: var(--sp-5);
+  margin-bottom: 0;
 }
 [data-theme='light'] .greeting--night,
 :root:not([data-theme]) .greeting--night { display: none; }
@@ -234,8 +240,8 @@ const principles = [
 .h-mark::after {
   content: '';
   position: absolute;
-  left: -2px; right: -2px; bottom: 6px;
-  height: 10px;
+  left: -2px; right: -2px; bottom: 0.1em;
+  height: 0.16em;
   background: var(--accent-sage);
   opacity: 0.30;
   z-index: -1;
@@ -303,7 +309,6 @@ const principles = [
 .plant .leaf:nth-of-type(4) { animation-delay: -4.5s; }
 @keyframes leaf-wave { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 
-/* Three rooms */
 .rooms-section { position: relative; }
 
 /* Three rooms — Build is the tall room; Audit and Test are wide rooms.
