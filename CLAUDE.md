@@ -27,6 +27,8 @@ Vue 3 + Vite multi-page static site. **No SPA router.** Each route is a real HTM
 
 Each HTML file imports its own tiny entry script in `src/entries/`. Each entry imports the same `src/App.vue` shell (`<Skip-link> <Nav> <PageSlot> <Footer>`) and passes the appropriate page component as a prop.
 
+**Prerendering:** `npm run build` runs three steps: client build → `vite build --ssr src/entries/ssr.js --outDir dist-ssr` → `node scripts/prerender.mjs`, which injects each page's rendered HTML into `dist/*.html` (so pages work without JavaScript) and deletes `dist-ssr/`. Entries hydrate with `createSSRApp` when `#app` has children. `ThemeToggle` is client-only-mounted in `Nav.vue` (SSR would crash on `window.matchMedia`); a 44px placeholder prevents layout shift.
+
 **Theme system** (spec §6.6):
 - CSS custom properties in `src/styles/tokens.css`, switched via `[data-theme="dark|light"]` on `<html>`.
 - A short inline `<head>` script reads `localStorage.theme` (or system preference) and applies the attribute *before* paint to prevent flash of wrong theme.
@@ -42,9 +44,9 @@ Each HTML file imports its own tiny entry script in `src/entries/`. Each entry i
 **No web fonts loaded** — system font stack only. Adding `link rel="preconnect"` to a font CDN will fail `check:no-tracking`.
 
 **Surface design (palette, typography, copy, motion):**
-- Canonical spec: `docs/superpowers/specs/2026-04-29-colorful-home-design.md` — supersedes §5–§6 of the 2026-04-27 spec.
+- Canonical spec: `docs/superpowers/specs/2026-07-02-light-is-on-design.md` — supersedes the layout/typography/motion sections of the 2026-04-29 colorful-home spec (which remains authoritative for voice, palette values, and brand mark).
 - Brand color: `#8B4A2E` (deep terracotta) primary, `#C97B5C` light companion. Five accent tokens: ochre, sage, sky, rose (day) plus ember (night-only).
-- Components `PhoneMockup` and `ServiceCard` no longer exist. Decorations are inline SVG in page templates: sun (Home day), lamp (Home night), plant, window, envelope (Work), mailbox (Contact).
+- Decorations are inline SVG in one stroke-based line language (2px, rounded caps, one filled accent each): window scene (Home hero, merges sun+lamp), plant (Home), shelf + envelope (Work), mailbox (Contact), grass tufts (Footer).
 - All animation is CSS keyframes, gated by `prefers-reduced-motion: reduce` in `src/styles/base.css`.
 - Copy guidelines (no rhythmic tricolons, no "X — not Y" reversals, no arrow CTAs, em-dash budget, sentence-case labels) live in spec §4. Two scoped exceptions: the hero greeting strings ("Hi — come in", "The lamp is on — come in") and the today-on-workbench block use a softer voice.
 
