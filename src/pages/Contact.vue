@@ -74,18 +74,6 @@ const checklist = [
 
 <style scoped>
 .page-h { padding-top: var(--sp-7); }
-.page-kicker {
-  display: inline-block;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--primary);
-  margin-bottom: var(--sp-3);
-  background: color-mix(in srgb, var(--primary-light) 14%, transparent);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  font-weight: 600;
-}
 .contact-heading { margin-top: var(--sp-2); margin-bottom: var(--sp-3); max-width: 18ch; }
 .contact-lede { color: var(--on-surface-soft); max-width: 60ch; font-size: 1.06rem; }
 
@@ -137,20 +125,6 @@ const checklist = [
 }
 .email-link:hover { border-bottom-color: var(--primary); text-decoration: none; }
 .email-side { color: var(--on-surface-muted); margin-top: var(--sp-2); }
-
-.section-h {
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--sp-2);
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-}
-.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; transform: translateY(-3px); }
-.dot--ochre { background: var(--accent-ochre); }
-.dot--sage  { background: var(--accent-sage); }
-.section-sub { color: var(--on-surface-muted); margin-bottom: var(--sp-5); max-width: 56ch; }
 
 .meta { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); max-width: 80ch; }
 @media (min-width: 720px) { .meta { grid-template-columns: repeat(2, 1fr); } }

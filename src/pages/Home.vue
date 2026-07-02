@@ -54,7 +54,7 @@ const principles = [
       iOS and Android apps, end-to-end. Privacy audits for existing apps. On-device behavior testing. Currently a one-person studio, working from a quiet desk in Ukraine.
     </p>
 
-    <div class="hero-cta-row">
+    <div class="cta-row">
       <a class="cta" href="mailto:contact@bulonka-studio.com">Email contact@bulonka-studio.com</a>
       <span class="t-small cta-side">replies usually inside a business day.</span>
     </div>
@@ -205,23 +205,6 @@ const principles = [
   50%      { background-position: 100% 50%; }
 }
 
-.hero-cta-row { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
-.cta {
-  display: inline-flex;
-  align-items: center;
-  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  font-size: 0.95rem;
-  font-weight: 600;
-  background: var(--primary);
-  color: var(--on-primary);
-  padding: 0.85rem 1.4rem;
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-fab);
-  transition: transform 220ms var(--motion-bounce), box-shadow var(--motion-fast);
-}
-.cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-fab-hover); text-decoration: none; }
-.cta-side { color: var(--on-surface-muted); }
-
 /* Hero corner decorations */
 .hero-sun, .hero-lamp { position: absolute; top: var(--sp-3); right: var(--sp-3); pointer-events: none; }
 .hero-sun { width: 96px; height: 96px; opacity: 0.78; animation: spin 80s linear infinite; }
@@ -306,27 +289,6 @@ const principles = [
 .plant .leaf:nth-child(3) { animation-delay: -3s; }
 .plant .leaf:nth-child(4) { animation-delay: -4.5s; }
 @keyframes leaf-wave { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
-
-/* Sections common */
-.section-h {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--sp-2);
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-}
-.dot {
-  display: inline-block;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  transform: translateY(-3px);
-}
-.dot--ochre { background: var(--accent-ochre); }
-.dot--sage  { background: var(--accent-sage); }
-.section-sub { color: var(--on-surface-muted); margin-bottom: var(--sp-5); max-width: 56ch; }
 
 /* Three rooms */
 .rooms-section { position: relative; }
