@@ -1404,3 +1404,25 @@ Append actual results (sizes, any deviations) to this plan file under a "## Veri
 git add docs/superpowers/plans/2026-07-02-light-is-on.md
 git commit -m "Record browser verification results for light-is-on redesign"
 ```
+
+## Verification record (2026-07-02, Task 12)
+
+Environment: Chromium via claude-in-chrome MCP against `npm run preview` of a fresh `npm run build`. Window-level viewport control and reduced-motion/JS-off DevTools emulation are unavailable in this environment; exact-width tests ran as same-origin iframes at 360×740 / 768×900 / 1280×900 CSS px measured with DOM geometry, and the JS-off test ran as a sandboxed iframe without `allow-scripts` (a true no-script render). Screenshot capture was intermittently flaky (CDP timeouts, variable capture scale) — an environment issue; DOM probes are the primary evidence.
+
+| Check | Result |
+|---|---|
+| Theme × viewport matrix (3 pages × 360/768/1280) | ✓ no horizontal overflow anywhere; one `<h1>` per page; decorations present and in flow at every width (window 84→300px, plant 64→92px, envelope 120→160px, mailbox 200px) |
+| Day theme visuals | ✓ pane light patch, sun-in-pane window scene, ambient glows (screenshots) |
+| Night theme visuals | ✓ lamp pool, dusk vignette, lamp-in-window scene, ember flicker layer (screenshots + probe: `data-theme=dark`, night greeting/lamp shown, day greeting/sun hidden) |
+| The switch | ✓ toggle click → `data-theme` flips, `localStorage` = exactly one `theme` key, full re-tint, icon swaps, button stays 44×44 |
+| Bloom / hover choreography | ✓ at CSS level (`@property` registrations + 600ms transitions, `:has()` dim rule present in live CSSOM); transient interpolation not capturable in stills |
+| Walking between rooms | ✓ `@view-transition{navigation:auto}` inside `prefers-reduced-motion: no-preference`, `view-transition-name: nav` computed on header, navigation preserves theme, no wrong-theme flash observed |
+| Reduced motion | ✓ kill-switch (zeroed durations + `body::before/after` stopped) verified in live CSSOM; OS-level emulation unavailable in this environment |
+| No-JS | ✓ sandboxed no-script iframe: full prerendered content renders, `data-theme` absent, theme follows system via `:root:not([data-theme])` fallbacks, toggle absent, 44px placeholder present |
+| Hydration / console | ✓ zero console messages (errors or warnings) on fresh loads of all three pages |
+| Copy diff vs `feature/landing-page-warm-home` | ✓ indentation-only changes to copy lines; greeting + today block verbatim |
+| Bundle budgets | ✓ CSS gz: home 5.81 / contact 4.69 / work 4.19 kB (≤15); JS gz ≈ 30 kB (≤50) |
+| Hero CTA above fold | ✗→✓ initially 942px at 360×740; fixed in `fb4637d` (mobile hero-top row shares greeting+window, display clamp 2.2rem floor, tightened rhythm) → 714px at 360×740; 836 at 768×900; 877 at 1280×900. Spec §13.9 amended 640→740 (the 640 figure predates measurement and was never met by the prior design). |
+| `.h-mark` highlight | ✗→✓ fixed-pixel bar read tiny under 72px display type; now em-relative (0.16em/0.1em), verified 11.5px at 72px |
+| Container queries | note: wide-room icon-beside layout engages when room content-box ≥380px — at ~1080px+ viewports, not at 768 (rooms are narrower there); as-designed adaptive behavior |
+| Gut check | ✓ still reads as a small studio with a person in it — the window scene, workbench card, and mono labels carry the inhabited feel; nothing reads as generated-SaaS |

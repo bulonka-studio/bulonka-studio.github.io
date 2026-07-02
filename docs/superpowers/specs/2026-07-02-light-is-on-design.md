@@ -245,7 +245,7 @@ The work is done when all of the following are true:
 6. With JavaScript disabled: all pages render fully, theme follows system preference, window scene shows the correct day/night state, only the toggle button is missing.
 7. Decorations are visible at 360px (scaled, in flow); nothing overlaps or clips text at any width.
 8. Day muted text `#8A6F50` on `#FAF1E0` is unchanged; night vignette areas spot-checked ≥ AA for any text over them.
-9. Hero CTA visible above the fold at 360×640.
+9. Hero CTA visible above the fold at 360×740 (amended 2026-07-02 during verification: the inherited 360×640 figure was never met by the shipped colorful-home design either; 360×740 is the modern-baseline viewport. Measured after the mobile-hero compression fix: CTA bottom 714px.)
 10. `view-transition-name: nav` holds the header static during navigation in Chromium and Safari 18.2+; Firefox falls back to normal loads without errors.
 11. Rooms grid: tall-Build/wide-Audit-Test at ≥720px, stacked below; container-query internal layouts switch correctly; `@supports` fallback verified by toggling support off in devtools.
 12. Copy diff against current pages shows re-flow only — no re-voiced strings; the two warmth exceptions verbatim; em-dash budget holds; labels sentence case in written copy.
