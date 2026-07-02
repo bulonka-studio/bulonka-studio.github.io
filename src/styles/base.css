@@ -1,5 +1,11 @@
 @import './tokens.css';
 
+/* Room-to-room navigation (spec §6.1). Declarative, works without JS.
+   Firefox: no support -> plain page loads. Reduced motion: excluded. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
 /* Mini reset */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
@@ -238,16 +244,16 @@ p { text-wrap: pretty; }
 .dot--sage  { background: var(--accent-sage); }
 .section-sub { color: var(--on-surface-muted); margin-bottom: var(--sp-5); max-width: 56ch; }
 
-/* Load-time staggered fade-in */
+/* Load-time staggered fade-in — subtle, so it composes with the crossfade */
 .fade-up {
   opacity: 0;
-  transform: translateY(12px);
-  animation: fadeUp 700ms var(--motion-soft) forwards;
+  transform: translateY(8px);
+  animation: fadeUp 500ms var(--motion-soft) forwards;
 }
-.fade-up.delay-1 { animation-delay: 80ms; }
-.fade-up.delay-2 { animation-delay: 240ms; }
-.fade-up.delay-3 { animation-delay: 400ms; }
-.fade-up.delay-4 { animation-delay: 560ms; }
+.fade-up.delay-1 { animation-delay: 60ms; }
+.fade-up.delay-2 { animation-delay: 160ms; }
+.fade-up.delay-3 { animation-delay: 260ms; }
+.fade-up.delay-4 { animation-delay: 360ms; }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
 /* Spec sheet — used on /work (NDA cards) and /contact (meta chips reuse a variant) */
