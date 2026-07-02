@@ -147,7 +147,6 @@ html {
 /* Type scale — three voices (spec §4): display, body, workshop mono */
 .t-display { font-size: var(--text-display); line-height: 1.02; font-weight: 650; letter-spacing: -0.03em; text-wrap: balance; }
 .t-h1      { font-size: var(--text-h1); line-height: 1.15; font-weight: 600; text-wrap: balance; }
-.t-h2      { font-size: 1.25rem; line-height: 1.25; font-weight: 600; }
 .t-body    { font-size: 1rem;   line-height: 1.6;  font-weight: 400; }
 .t-small   { font-size: 0.78rem; line-height: 1.5;  font-weight: 400; color: var(--on-surface-muted); }
 .t-mono    {
@@ -252,10 +251,9 @@ p { text-wrap: pretty; }
 .fade-up.delay-1 { animation-delay: 60ms; }
 .fade-up.delay-2 { animation-delay: 160ms; }
 .fade-up.delay-3 { animation-delay: 260ms; }
-.fade-up.delay-4 { animation-delay: 360ms; }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-/* Spec sheet — used on /work (NDA cards) and /contact (meta chips reuse a variant) */
+/* Spec sheet — used on /work (NDA cards) */
 .spec { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 80ch; }
 .spec-key {
   padding: var(--sp-4) 0 var(--sp-2);

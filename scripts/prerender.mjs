@@ -16,7 +16,7 @@ for (const [name, file] of targets) {
   const doc = readFileSync(file, 'utf8');
   const marker = '<div id="app"></div>';
   if (!doc.includes(marker)) throw new Error(`prerender: ${file} has no empty #app marker`);
-  writeFileSync(file, doc.replace(marker, `<div id="app">${html}</div>`));
+  writeFileSync(file, doc.replace(marker, () => `<div id="app">${html}</div>`));
   console.log(`prerendered ${file} (${(html.length / 1024).toFixed(1)} kB markup)`);
 }
 

@@ -1426,3 +1426,4 @@ Environment: Chromium via claude-in-chrome MCP against `npm run preview` of a fr
 | `.h-mark` highlight | ✗→✓ fixed-pixel bar read tiny under 72px display type; now em-relative (0.16em/0.1em), verified 11.5px at 72px |
 | Container queries | note: wide-room icon-beside layout engages when room content-box ≥380px — at ~1080px+ viewports, not at 768 (rooms are narrower there); as-designed adaptive behavior |
 | Gut check | ✓ still reads as a small studio with a person in it — the window scene, workbench card, and mono labels carry the inhabited feel; nothing reads as generated-SaaS |
+| Browser coverage | note: verification ran in Chromium only; Firefox (no view transitions) and Safari fallbacks are declarative-CSS by construction, to be spot-checked when a device is at hand |
