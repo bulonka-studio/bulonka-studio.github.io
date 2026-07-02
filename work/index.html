@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work — Bulonka Studio</title>
+    <meta name="description" content="The shelf is mostly empty on purpose. Most current work ships under NDA — Bulonka Studio is happy to walk through it on a call." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://bulonka-studio.com/work/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Work — Bulonka Studio" />
+    <meta property="og:description" content="The shelf is mostly empty on purpose. Most current work ships under NDA — Bulonka Studio is happy to walk through it on a call." />
+    <meta property="og:url" content="https://bulonka-studio.com/work/" />
+    <meta property="og:image" content="https://bulonka-studio.com/bulonka-studio-preview.png" />
+
+    <meta name="theme-color" content="#1A130D" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAF1E0" media="(prefers-color-scheme: light)" />
+
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          if (s !== 'dark' && s !== 'light') {
+            s = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', s);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/entries/work.js"></script>
+  </body>
+</html>

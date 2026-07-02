@@ -3,11 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>React + Vue</title>
+    <title>Bulonka Studio — mobile apps that respect their users</title>
+    <meta name="description" content="Bulonka Studio is a small mobile studio building privacy-respecting iOS and Android apps. Audits and on-device behavior testing for existing apps. Based in Ukraine." />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://bulonka-studio.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bulonka Studio — mobile apps that respect their users" />
+    <meta property="og:description" content="Bulonka Studio is a small mobile studio building privacy-respecting iOS and Android apps. Audits and on-device behavior testing for existing apps. Based in Ukraine." />
+    <meta property="og:url" content="https://bulonka-studio.com/" />
+    <meta property="og:image" content="https://bulonka-studio.com/bulonka-studio-preview.png" />
+
+    <meta name="theme-color" content="#1A130D" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAF1E0" media="(prefers-color-scheme: light)" />
+
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          if (s !== 'dark' && s !== 'light') {
+            s = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          document.documentElement.setAttribute('data-theme', s);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Bulonka Studio",
+        "url": "https://bulonka-studio.com",
+        "description": "Privacy-first mobile app development studio focused on iOS and Android.",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "contact@bulonka-studio.com",
+          "contactType": "customer service"
+        }
+      }
+    </script>
   </head>
   <body>
-    <div id="react-root"></div>
-    <div id="vue-root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/entries/home.js"></script>
   </body>
 </html>

@@ -1,11 +1,18 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import vue from '@vitejs/plugin-vue';
+import { resolve } from 'node:path';
 
 export default defineConfig({
   base: process.env.GITHUB_PAGES_BASE ?? '/',
-  plugins: [
-    react({ include: /\.(jsx|tsx)$/ }),
-    vue(),
-  ],
+  plugins: [vue()],
+  build: {
+    rollupOptions: {
+      input: {
+        home: resolve(import.meta.dirname, 'index.html'),
+        work: resolve(import.meta.dirname, 'work/index.html'),
+        contact: resolve(import.meta.dirname, 'contact/index.html'),
+        privacy: resolve(import.meta.dirname, 'privacy/index.html'),
+      },
+    },
+  },
 });
