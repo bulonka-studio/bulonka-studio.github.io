@@ -1,3 +1,10 @@
+/* Typed glow tokens: lets the theme switch interpolate the light layers
+   (spec §3.3). Without @property support these are plain custom properties
+   and the theme swap is instant — same as before. */
+@property --glow-1 { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --glow-2 { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --glow-ember { syntax: '<color>'; inherits: true; initial-value: transparent; }
+
 /* Defaults: applied when no [data-theme] is set yet (e.g. JS off + no CSS @media match). */
 :root {
   /* Spacing rhythm — 4px base */
@@ -27,6 +34,13 @@
   --motion-fast: 220ms;
   --motion-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --motion-soft:   cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Fluid scale (spec §4) */
+  --text-display: clamp(2.6rem, 1.6rem + 4.2vw, 4.5rem);
+  --text-h1: clamp(1.7rem, 1.3rem + 1.6vw, 2.4rem);
+  --sp-section: clamp(3rem, 2rem + 5vw, 6rem);
+  /* Day light patch tint (spec §3.1); resolves per-theme via --accent-ochre */
+  --pane-tint: color-mix(in srgb, var(--accent-ochre) 22%, transparent);
 }
 
 /* Day theme (warm five-color) */
@@ -46,7 +60,8 @@
   --accent-sage:  #7A9978;
   --accent-sky:   #87B5D6;
   --accent-rose:  #D4847A;
-  --shadow-card: 0 4px 18px rgba(60, 30, 10, 0.06);
+  --shadow-card: 0 1px 2px rgba(60, 30, 10, 0.08), 0 8px 28px rgba(60, 30, 10, 0.07);
+  --edge-light: inset 0 1px 0 rgba(255, 255, 255, 0.55);
   --shadow-fab:  0 4px 14px rgba(201, 123, 92, 0.30);
   --shadow-fab-hover: 0 10px 22px rgba(201, 123, 92, 0.38);
   --glow-1: rgba(212, 160, 74, 0.22);
@@ -71,7 +86,8 @@
   --accent-sky:   #5C7C9C;
   --accent-rose:  #D6816F;
   --accent-ember: #D26646;
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.30);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.30);
+  --edge-light: inset 0 1px 0 rgba(232, 168, 124, 0.10);
   --shadow-fab:  0 4px 20px rgba(232, 168, 124, 0.30), 0 0 36px rgba(210, 102, 70, 0.18);
   --shadow-fab-hover: 0 10px 28px rgba(232, 168, 124, 0.40), 0 0 48px rgba(210, 102, 70, 0.25);
   --glow-1: rgba(232, 168, 124, 0.18);
@@ -97,7 +113,8 @@
     --accent-sage:  #7A9978;
     --accent-sky:   #87B5D6;
     --accent-rose:  #D4847A;
-    --shadow-card: 0 4px 18px rgba(60, 30, 10, 0.06);
+    --shadow-card: 0 1px 2px rgba(60, 30, 10, 0.08), 0 8px 28px rgba(60, 30, 10, 0.07);
+    --edge-light: inset 0 1px 0 rgba(255, 255, 255, 0.55);
     --shadow-fab:  0 4px 14px rgba(201, 123, 92, 0.30);
     --shadow-fab-hover: 0 10px 22px rgba(201, 123, 92, 0.38);
     --glow-1: rgba(212, 160, 74, 0.22);
@@ -122,7 +139,8 @@
     --accent-sky:   #5C7C9C;
     --accent-rose:  #D6816F;
     --accent-ember: #D26646;
-    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.30);
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.30);
+    --edge-light: inset 0 1px 0 rgba(232, 168, 124, 0.10);
     --shadow-fab:  0 4px 20px rgba(232, 168, 124, 0.30), 0 0 36px rgba(210, 102, 70, 0.18);
     --shadow-fab-hover: 0 10px 28px rgba(232, 168, 124, 0.40), 0 0 48px rgba(210, 102, 70, 0.25);
     --glow-1: rgba(232, 168, 124, 0.18);
