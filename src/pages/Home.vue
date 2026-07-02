@@ -102,41 +102,35 @@ const principles = [
     <h2 class="section-h"><span class="dot dot--ochre"></span>Three rooms in this studio</h2>
     <p class="t-body section-sub">Each one is something the studio has shipped before — paid, on a real project, end to end.</p>
 
-    <!-- Window decoration (desktop only) -->
-    <svg class="window-deco" viewBox="0 0 96 110" aria-hidden="true">
-      <rect x="2" y="2" width="92" height="106" rx="6" fill="var(--surface-deep)" stroke="var(--primary)" stroke-width="2"/>
-      <rect class="sky" x="8"  y="8"  width="38" height="46" rx="2" fill="var(--accent-sky)"/>
-      <rect class="sky" x="50" y="8"  width="38" height="46" rx="2" fill="var(--accent-sky)" opacity="0.85"/>
-      <rect class="sky" x="8"  y="58" width="38" height="44" rx="2" fill="var(--accent-sky)" opacity="0.9"/>
-      <rect class="sky" x="50" y="58" width="38" height="44" rx="2" fill="var(--accent-sky)" opacity="0.75"/>
-      <line x1="48" y1="6" x2="48" y2="104" stroke="var(--primary)" stroke-width="2"/>
-      <line x1="4"  y1="56" x2="92" y2="56" stroke="var(--primary)" stroke-width="2"/>
-      <circle cx="20" cy="22" r="4" fill="var(--accent-ochre)"/>
-    </svg>
-
     <div class="rooms">
       <div class="room room--build">
-        <div class="room-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V8l6-4 6 4v13M10 13h4M10 17h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="room-inner">
+          <div class="room-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V8l6-4 6 4v13M10 13h4M10 17h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="room-title">Build</h3>
+          <p class="room-body">Full apps, idea to App Store. iOS native, Android native, and KMP when it earns its keep.</p>
         </div>
-        <h3 class="room-title">Build</h3>
-        <p class="room-body">Full apps, idea to App Store. iOS native, Android native, and KMP when it earns its keep.</p>
       </div>
 
       <div class="room room--audit">
-        <div class="room-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <div class="room-inner">
+          <div class="room-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="room-title">Audit</h3>
+          <p class="room-body">Privacy and behavior reviews of existing apps. Threat models, SDK reviews, encryption, data-minimization.</p>
         </div>
-        <h3 class="room-title">Audit</h3>
-        <p class="room-body">Privacy and behavior reviews of existing apps. Threat models, SDK reviews, encryption, data-minimization.</p>
       </div>
 
       <div class="room room--test">
-        <div class="room-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M2 12c4-6 16-6 20 0M6 12c2-3 10-3 12 0M10 12c1-1 3-1 4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1.4" fill="currentColor"/></svg>
+        <div class="room-inner">
+          <div class="room-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M2 12c4-6 16-6 20 0M6 12c2-3 10-3 12 0M10 12c1-1 3-1 4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1.4" fill="currentColor"/></svg>
+          </div>
+          <h3 class="room-title">Test</h3>
+          <p class="room-body">What an app actually does on a real device, and what it sends where. Network traces and behavior reports.</p>
         </div>
-        <h3 class="room-title">Test</h3>
-        <p class="room-body">What an app actually does on a real device, and what it sends where. Network traces and behavior reports.</p>
       </div>
     </div>
   </section>
@@ -172,6 +166,10 @@ const principles = [
 
 /* Window scene animation + day/night state */
 .ws-pane { animation: sky-drift 18s ease-in-out infinite alternate; }
+@keyframes sky-drift {
+  0%   { transform: translate(-1.5px, 0); }
+  100% { transform: translate( 1.5px, 1.5px); }
+}
 .ws-sun { transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .ws-bulb { fill: var(--primary); transform-box: fill-box; transform-origin: center; animation: bulb-flicker 4.5s ease-in-out infinite; }
@@ -307,32 +305,27 @@ const principles = [
 
 /* Three rooms */
 .rooms-section { position: relative; }
-.window-deco {
-  position: absolute;
-  top: var(--sp-7); right: 6%;
-  width: 96px; height: 110px;
-  pointer-events: none;
-  opacity: 0.85;
-  display: none;
-}
-@media (min-width: 980px) { .window-deco { display: block; } }
-.window-deco .sky { animation: sky-drift 18s ease-in-out infinite alternate; transform-origin: center; }
-@keyframes sky-drift {
-  0%   { transform: translateX(-2px) translateY(0); }
-  100% { transform: translateX( 2px) translateY(2px); }
-}
 
+/* Three rooms — Build is the tall room; Audit and Test are wide rooms.
+   Each room arranges itself by its own width (container query). */
 .rooms { display: grid; grid-template-columns: 1fr; gap: var(--sp-3); }
-@media (min-width: 720px) { .rooms { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 720px) {
+  .rooms { grid-template-columns: 1fr 1.4fr; }
+  .room--build { grid-row: span 2; }
+}
 .room {
-  padding: var(--sp-5) var(--sp-4) var(--sp-5);
+  container-type: inline-size;
+  padding: var(--sp-5) var(--sp-4);
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--outline);
-  transition: transform 280ms var(--motion-bounce), box-shadow 280ms;
+  box-shadow: var(--edge-light);
+  transition: transform 280ms var(--motion-bounce), box-shadow 280ms, opacity 280ms var(--motion-soft);
 }
 .room:hover { transform: translateY(-5px); }
+/* Attention behaves like light: the room you look at stays lit */
+.rooms:has(.room:hover) .room:not(:hover) { opacity: 0.75; }
 .room--build { background: linear-gradient(155deg, color-mix(in srgb, var(--primary-light) 16%, transparent), color-mix(in srgb, var(--primary-light) 4%, transparent) 80%); }
 .room--audit { background: linear-gradient(155deg, color-mix(in srgb, var(--accent-sage) 16%, transparent), color-mix(in srgb, var(--accent-sage) 4%, transparent) 80%); }
 .room--test  { background: linear-gradient(155deg, color-mix(in srgb, var(--accent-sky) 20%, transparent),  color-mix(in srgb, var(--accent-sky) 4%, transparent) 80%); }
@@ -352,4 +345,17 @@ const principles = [
 .room-icon svg { width: 22px; height: 22px; }
 .room-title { font-weight: 700; font-size: 1.12rem; margin-bottom: var(--sp-1); letter-spacing: -0.005em; }
 .room-body  { color: var(--on-surface-soft); font-size: 0.94rem; line-height: 1.55; }
+
+/* Wide rooms lay icon beside text */
+@container (min-width: 380px) {
+  .room-inner { display: grid; grid-template-columns: 44px 1fr; column-gap: var(--sp-4); align-items: start; }
+  .room-inner .room-icon { grid-row: 1 / 3; margin-bottom: 0; }
+}
+/* Fallback when container queries are unsupported: approximate by viewport */
+@supports not (container-type: inline-size) {
+  @media (min-width: 900px) {
+    .room--audit .room-inner, .room--test .room-inner { display: grid; grid-template-columns: 44px 1fr; column-gap: var(--sp-4); align-items: start; }
+    .room--audit .room-icon,  .room--test .room-icon  { grid-row: 1 / 3; margin-bottom: 0; }
+  }
+}
 </style>
