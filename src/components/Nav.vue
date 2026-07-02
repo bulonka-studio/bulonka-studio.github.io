@@ -3,8 +3,12 @@ import { ref, onMounted } from 'vue';
 import ThemeToggle from './ThemeToggle.vue';
 
 const path = ref('/');
+const mounted = ref(false);
 
-onMounted(() => { path.value = window.location.pathname; });
+onMounted(() => {
+  path.value = window.location.pathname;
+  mounted.value = true;
+});
 
 function isActive(prefix) {
   if (prefix === '/work') return path.value.startsWith('/work');
@@ -23,7 +27,8 @@ function isActive(prefix) {
       <nav aria-label="Primary">
         <a href="/work/" :class="['nav-link', { 'nav-link--active': isActive('/work') }]">Work</a>
         <a href="/contact/" :class="['nav-link', { 'nav-link--active': isActive('/contact') }]">Contact</a>
-        <ThemeToggle />
+        <ThemeToggle v-if="mounted" />
+        <span v-else class="toggle-slot" aria-hidden="true"></span>
       </nav>
     </div>
   </header>
@@ -35,13 +40,15 @@ function isActive(prefix) {
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 1px solid var(--outline);
+  view-transition-name: nav; /* stays planted while pages crossfade */
 }
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--sp-3);
-  padding-bottom: var(--sp-3);
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-2);
 }
 .brand {
   display: inline-flex;
@@ -51,6 +58,7 @@ function isActive(prefix) {
   font-size: 1.05rem;
   letter-spacing: -0.005em;
   color: var(--on-surface);
+  min-height: 44px;
 }
 .brand-dot {
   width: 14px;
@@ -68,10 +76,12 @@ nav { display: inline-flex; align-items: center; gap: var(--sp-3); }
 .nav-link {
   font-size: 0.95rem;
   color: var(--on-surface-soft);
-  padding: 0.4rem 0.4rem;
-  border-bottom: 2px solid transparent;
-  transition: color var(--motion-fast) var(--motion-soft), border-bottom-color var(--motion-fast) var(--motion-soft);
+  padding: 0.7rem 0.4rem;
+  background: linear-gradient(var(--primary-light), var(--primary-light)) no-repeat left calc(100% - 6px) / 0% 2px;
+  transition: color var(--motion-fast) var(--motion-soft), background-size var(--motion-fast) var(--motion-soft);
 }
-.nav-link:hover { color: var(--on-surface); }
-.nav-link--active { color: var(--primary); border-bottom-color: var(--primary-light); font-weight: 600; }
+.nav-link:hover { color: var(--on-surface); background-size: 100% 2px; }
+.nav-link--active { color: var(--primary); font-weight: 600; background-size: 100% 2px; }
+/* Reserves the toggle's box before client mount / without JS — no layout shift. */
+.toggle-slot { display: inline-block; width: 44px; height: 44px; }
 </style>

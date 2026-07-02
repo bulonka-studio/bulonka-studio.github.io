@@ -1,6 +1,9 @@
 import '../styles/base.css';
-import { createApp } from 'vue';
+import { createApp, createSSRApp } from 'vue';
 import App from '../App.vue';
 import Contact from '../pages/Contact.vue';
 
-createApp(App, { page: Contact }).mount('#app');
+// Prod HTML is prerendered (scripts/prerender.mjs) — hydrate it.
+// Dev server has an empty #app — plain mount, no hydration warnings.
+const el = document.getElementById('app');
+(el.hasChildNodes() ? createSSRApp : createApp)(App, { page: Contact }).mount('#app');
