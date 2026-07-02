@@ -16,21 +16,16 @@ const ndaSheet = [
   </section>
 
   <section class="section page fade-up delay-1">
-    <div class="empty-grid">
-      <svg class="envelope" viewBox="0 0 200 130" aria-hidden="true">
-        <rect x="6" y="20" width="188" height="100" rx="6" fill="var(--surface)" stroke="var(--primary)" stroke-width="1.6"/>
-        <path d="M6 24 L100 76 L194 24" fill="none" stroke="var(--primary)" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M6 24 L100 76 L194 24 L194 20 L6 20 Z" fill="var(--surface-deep)"/>
-        <rect x="22" y="40" width="156" height="60" rx="3" fill="var(--surface)" stroke="var(--outline)"/>
-        <line x1="32" y1="56" x2="160" y2="56" stroke="var(--primary-light)" stroke-width="2" opacity="0.5"/>
-        <line x1="32" y1="64" x2="140" y2="64" stroke="var(--on-surface-muted)" stroke-width="1" opacity="0.5"/>
-        <line x1="32" y1="72" x2="150" y2="72" stroke="var(--on-surface-muted)" stroke-width="1" opacity="0.5"/>
-        <circle cx="100" cy="92" r="14" fill="var(--accent-rose)"/>
-        <text x="100" y="96" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="var(--on-primary)">B</text>
-      </svg>
-      <div>
-        <h2 class="t-h1 empty-h">First public case studies are coming.</h2>
-        <p class="t-body empty-body">When something can be shown publicly, it lands here. Until then, the shelf stays honest.</p>
+    <div class="shelf-scene">
+      <h2 class="t-h1 empty-h">First public case studies are coming.</h2>
+      <p class="t-body empty-body">When something can be shown publicly, it lands here. Until then, the shelf stays honest.</p>
+      <div class="shelf">
+        <svg class="envelope" viewBox="0 0 160 104" aria-hidden="true">
+          <rect x="4" y="16" width="152" height="84" rx="6" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
+          <path d="M4 20 L80 62 L156 20" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="80" cy="80" r="11" fill="var(--accent-rose)"/>
+          <text x="80" y="84" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="var(--on-primary)">B</text>
+        </svg>
       </div>
     </div>
   </section>
@@ -54,24 +49,40 @@ const ndaSheet = [
 </template>
 
 <style scoped>
-.page-h { padding-top: var(--sp-7); }
+.page-h { padding-top: var(--sp-6); }
 .work-heading { margin-top: var(--sp-2); margin-bottom: var(--sp-3); max-width: 18ch; }
 .work-lede { color: var(--on-surface-soft); max-width: 60ch; font-size: 1.06rem; }
 
-.empty-grid { display: grid; grid-template-columns: 1fr; gap: var(--sp-5); align-items: center; max-width: 880px; }
-@media (min-width: 720px) { .empty-grid { grid-template-columns: 200px 1fr; } }
+/* The shelf: drawn, mostly empty — on purpose */
+.shelf-scene { max-width: 880px; }
+.empty-h { margin-bottom: var(--sp-2); }
+.empty-body { color: var(--on-surface-soft); max-width: 56ch; margin-bottom: var(--sp-6); }
+.shelf {
+  border-bottom: 2.5px solid var(--primary);
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: clamp(16px, 8%, 96px);
+}
+.shelf::before, .shelf::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: 10px;
+  height: 12px;
+  border-left: 2.5px solid var(--primary);
+}
+.shelf::before { left: 6%; }
+.shelf::after { right: 6%; }
 .envelope {
-  width: 200px; height: 130px;
-  margin: 0 auto;
-  transform-origin: center;
+  width: clamp(120px, 24vw, 160px);
+  margin-bottom: -2px;
+  transform-origin: 50% 100%;
   animation: envelope-tilt 8s ease-in-out infinite alternate;
 }
 @keyframes envelope-tilt {
-  0%   { transform: rotate(-3deg) translateY(0); }
-  100% { transform: rotate( 2deg) translateY(-4px); }
+  0%   { transform: rotate(-2.5deg); }
+  100% { transform: rotate( 1.5deg); }
 }
-.empty-h { margin-bottom: var(--sp-2); }
-.empty-body { color: var(--on-surface-soft); max-width: 56ch; }
-
 .cta-row { margin-top: var(--sp-7); }
 </style>
