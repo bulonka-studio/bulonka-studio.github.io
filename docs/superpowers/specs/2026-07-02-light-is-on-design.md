@@ -30,7 +30,9 @@ Success criterion is unchanged from 2026-04-29 §1: the site reads as "a small s
 - Rework `src/styles/base.css` (light system, type scale, motion set, view transitions, shared component styles consolidated from pages).
 - Rework `src/pages/Home.vue`, `Work.vue`, `Contact.vue` layouts; redraw all inline SVG decorations in one line language.
 - Restyle `Nav.vue`, `Footer.vue`, `ThemeToggle.vue`.
-- Update `CLAUDE.md` design-spec pointer to this spec.
+- **Build-time prerendering** (added 2026-07-02 during planning, user-approved). The brief's non-negotiable "pages fully render without JavaScript" was found to be untrue of the shipped site — entries mount into an empty `#app` div. Fix: a new SSR entry (`src/entries/ssr.js`) is bundled with `vite build --ssr` and a postbuild script (`scripts/prerender.mjs`) injects each page's rendered HTML into its built `dist/*.html`; client entries hydrate with `createSSRApp` when `#app` has children (dev server keeps plain `createApp`). Uses `vue/server-renderer`, which ships inside the existing `vue` dependency — zero new packages. `ThemeToggle` becomes client-only-mounted in `Nav.vue` (a 44px placeholder holds its space) because `useTheme` touches browser APIs at setup; `useTheme.js` itself stays untouched.
+- Delete the orphaned `src/components/Button.vue` (nothing imports it).
+- Update `CLAUDE.md` design-spec pointer to this spec and document the prerender step.
 
 ### Out of scope (all unchanged)
 
@@ -47,8 +49,7 @@ One physical story unifies both themes: **there is a window in this studio, and 
 
 ### 3.1 Day — sun through the window
 
-- `body::before` renders a **window-pane light patch**: a skewed four-pane shape (one `clip-path: polygon(...)` on a blurred, warm-tinted pseudo-element) lying across the hero area like sun cast on a floor. It drifts imperceptibly (`pane-light` keyframe, ~120s, alternate). Tint: `color-mix(in srgb, var(--accent-ochre) 20%, transparent)` with a `filter: blur()` soft edge.
-- Browsers without `clip-path` support (effectively none, but cheap to guard) get the current soft-ellipse shape.
+- `body::before` renders a **window-pane light patch**: a skewed 2×2 pane grid drawn as four soft gradient tiles (four `no-repeat` linear-gradient backgrounds with mullion gaps between them) on a sized, skewed, blurred pseudo-element, lying across the hero area like sun cast on a floor. It drifts imperceptibly (`pane-light` keyframe, ~120s, alternate). Tint: `color-mix(in srgb, var(--accent-ochre) 20%, transparent)` with a `filter: blur()` soft edge. Plain gradients and transforms — no support cliff.
 - The existing two ambient glows (`--glow-1`, `--glow-2`) remain as supporting warmth at reduced opacity.
 
 ### 3.2 Night — the lamp casts a pool
@@ -107,7 +108,7 @@ All motion is CSS keyframes or CSS transitions; the global reduced-motion kill-s
 | `lamp-pool` flicker | `body::before` (night) | 6s steps | subtle 0.90–0.97 opacity; replaces separate `flicker` overlay |
 | theme bloom | `html` / `body` transition | 600ms | §3.3; not a keyframe |
 | `pulse` / `glow` | `.brand-dot` | 4s / 3.4s | unchanged |
-| `gradient-breathe` | `.h-accent` | 14s | reimplemented as a typed `@property` `<angle>` animation on the gradient angle (110°→160°→110°); background-position fallback |
+| `gradient-breathe` | `.h-accent` | 14s | unchanged (background-position breathe) — see §10 for why the `@property` angle rewrite was rejected |
 | `fadeUp` | `.fade-up` | 500ms, 8px rise | retuned shorter/subtler to compose with crossfade; same stagger classes |
 | underline grow | `.nav-link` | 220ms transition | background-size 0%→100% from left |
 | toggle rotate | `.theme-toggle` icon wrapper | 300ms transition | 90° rotation on theme-bound class |
@@ -129,7 +130,7 @@ All decorations are redrawn as a single stroke-based family: **2px strokes, roun
 
 | Decoration | Page | Filled accent | Notes |
 |---|---|---|---|
-| Window scene | Home hero | sky panes (`--accent-sky`) | **New; merges sun + window into one drawing.** Day: ochre sun ring + rays visible through an upper pane. Night: panes go night-blue, a line-art lamp with amber-filled shade stands in front, source of the §3.2 pool. Same three-selector day/night show/hide pattern as the current sun/lamp. |
+| Window scene | Home hero | sky panes (`--accent-sky`); night adds a small amber-filled bulb | **New; merges sun + window into one drawing.** Day: ochre sun ring + rays (stroke only) inside an upper pane. Night: panes go night-blue via the token swap, a line-art lamp stands in front — stroke-outlined shade, amber-filled bulb — source of the §3.2 pool. Same three-selector day/night show/hide pattern as the current sun/lamp. |
 | Potted plant | Home, today section | one ochre flower | line stems and leaves in sage strokes |
 | Shelf + envelope | Work | rose "B" seal | envelope leans on a drawn shelf line with bracket supports; deliberate empty space |
 | Mailbox | Contact | rose flag | line box and post; flag stays filled — it is the accent |
@@ -199,10 +200,9 @@ Everything used degrades gracefully; `@supports` guards only where absence would
 | Feature | Used for | Without support |
 |---|---|---|
 | `@view-transition` | room-to-room navigation, nav persistence | normal page loads (Firefox) |
-| `@property` | theme bloom (§3.3), `.h-accent` angle animation | instant swap / background-position fallback |
+| `@property` | theme bloom (§3.3) | instant swap |
 | `:has()` | rooms sibling-dim | plain per-room hover |
 | Container queries | room internal layout | explicit viewport-media fallback via `@supports not` |
-| `clip-path` | window-pane light patch | soft ellipse patch |
 | Fluid `clamp()` type + space | §4 | n/a (universal) |
 | `text-wrap: balance` / `pretty` | headings / body | plain wrapping |
 | CSS nesting | authoring in scoped styles, sparingly | n/a (build targets support it) |
@@ -213,6 +213,7 @@ Everything used degrades gracefully; `@supports` guards only where absence would
 - **`light-dark()` token collapse** — would need a duplicate fallback block for older browsers anyway, defeating the point; the explicit triple structure in `tokens.css` is what makes the no-JS contract provable; gzip flattens the repetition.
 - **Subgrid** — the varied-size rooms grid makes cross-card alignment moot; the chips are single-line pairs. No place where it earns its bytes.
 - **`@starting-style`** — the retuned keyframe `fadeUp` has broader support and already does the job; replacing it adds risk without visible gain.
+- **`@property` `<angle>` animation for `.h-accent`** — in browsers without `@property`, animating an unregistered custom property interpolates discretely: the gradient angle would visibly jump mid-cycle. There is no clean `@supports` gate for `@property`. The existing `background-position` breathe is smooth everywhere; it stays.
 - **Scroll-driven animations, scroll-snap, parallax** — banned by the brief.
 
 ## 11. CSS budget strategy
@@ -228,7 +229,7 @@ Budget: ≤ 15 kB gz CSS per page (`check:bundle-size` enforces; JS budget ≤ 5
 ## 12. Accessibility, no-JS, privacy — contracts restated
 
 - **Reduced motion:** the global kill-switch in `base.css` covers all animations and transitions above; `@view-transition` additionally sits inside `@media (prefers-reduced-motion: no-preference)`; theme swap becomes instant.
-- **No-JS:** `:root:not([data-theme])` fallback blocks stay untouched; every theme-dependent visual (window scene day/night, greeting, light layers) uses the same three-selector pattern the current greeting/sun/lamp use. View transitions are declarative and work without JS. Pages render fully; only the toggle disappears.
+- **No-JS:** `:root:not([data-theme])` fallback blocks stay untouched; every theme-dependent visual (window scene day/night, greeting, light layers) uses the same three-selector pattern the current greeting/sun/lamp use. View transitions are declarative and work without JS. Pages render fully **because the build prerenders them into the HTML** (§2); only the toggle disappears (it is client-only-mounted). This closes a gap in the previous specs, which claimed no-JS rendering that client-side mounting could not deliver.
 - **A11y:** decorative SVGs `aria-hidden`; one `<h1>` per page; skip link; `:focus-visible` 2px `--primary-light` outline on every interactive element; ≥ 44×44 px targets; day muted `#8A6F50` on `#FAF1E0` untouched (~5:1, AA); the night vignette only darkens backgrounds, raising edge contrast.
 - **Privacy:** zero new requests of any kind; zero web fonts; `localStorage` stays one key; `npm run check` green is the definition of done.
 
@@ -250,8 +251,9 @@ The work is done when all of the following are true:
 12. Copy diff against current pages shows re-flow only — no re-voiced strings; the two warmth exceptions verbatim; em-dash budget holds; labels sentence case in written copy.
 13. All decorative SVG `aria-hidden="true"`; one `<h1>` per page; skip link works; every interactive element shows a `:focus-visible` outline; tap targets ≥ 44×44 px.
 14. `theme-color` metas unchanged (backgrounds unchanged) and still in lockstep with `--background`.
-15. `CLAUDE.md` points at this spec as the canonical design spec.
-16. The gut check from the brief: the result still reads as a small studio with a person in it.
+15. `CLAUDE.md` points at this spec as the canonical design spec and documents the prerender step.
+16. Prerender: built `dist/index.html`, `dist/work/index.html`, `dist/contact/index.html` contain the full page markup inside `#app`; with JS enabled, Vue hydrates without console hydration-mismatch warnings; `dist-ssr/` (SSR bundle) is not deployed and is gitignored.
+17. The gut check from the brief: the result still reads as a small studio with a person in it.
 
 ## 14. Risks and open items
 
@@ -260,6 +262,7 @@ The work is done when all of the following are true:
 3. **Window scene complexity** — the merged day/night drawing is the largest new SVG. If it exceeds ~2 kB raw it gets simplified before shipping.
 4. **`@property` transition on `html`** — transitioning registered custom properties on the root during theme change is well-supported but under-trodden; verify no paint jank on low-end devices during the bloom. Fallback: shorten to 300ms or drop to instant.
 5. **Today-block content** remains a founder-edited string (inherited TBD from 2026-04-29 §10.3).
+6. **Hydration mismatches** — prerendered markup must match the client's initial render exactly. `Nav.vue`'s active-link state initializes to `'/'` on both server and client (set in `onMounted`), and the toggle is client-only behind a state that is false on both, so no mismatch is expected; verified via console in acceptance §13.16. This spec amends the "architecture unchanged" inheritance from 2026-04-29 §8 in exactly one way: the build gains the SSR bundle + prerender postbuild step.
 
 ## 15. Non-goals — explicit
 
