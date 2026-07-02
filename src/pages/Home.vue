@@ -9,54 +9,64 @@ const principles = [
 </script>
 
 <template>
-  <!-- Hero -->
+  <!-- Hero: the window is the room's light source in both themes -->
   <section class="section page hero fade-up">
-    <!-- Day decoration -->
-    <svg class="hero-sun" viewBox="0 0 100 100" aria-hidden="true">
-      <circle cx="50" cy="50" r="18"/>
-      <line x1="50" y1="6"  x2="50" y2="20"/>
-      <line x1="50" y1="80" x2="50" y2="94"/>
-      <line x1="6"  y1="50" x2="20" y2="50"/>
-      <line x1="80" y1="50" x2="94" y2="50"/>
-      <line x1="18" y1="18" x2="28" y2="28"/>
-      <line x1="72" y1="72" x2="82" y2="82"/>
-      <line x1="82" y1="18" x2="72" y2="28"/>
-      <line x1="28" y1="72" x2="18" y2="82"/>
+    <svg class="window-scene" viewBox="0 0 200 250" aria-hidden="true">
+      <!-- frame + sill -->
+      <rect x="8" y="8" width="184" height="216" rx="10" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
+      <!-- panes: the piece's filled accent; night tint comes from the token swap -->
+      <rect class="ws-pane" x="20"  y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.9"/>
+      <rect class="ws-pane" x="104" y="20"  width="76" height="94" rx="4" fill="var(--accent-sky)" opacity="0.75"/>
+      <rect class="ws-pane" x="20"  y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.8"/>
+      <rect class="ws-pane" x="104" y="122" width="76" height="90" rx="4" fill="var(--accent-sky)" opacity="0.65"/>
+      <line x1="100" y1="10" x2="100" y2="222" stroke="var(--primary)" stroke-width="2"/>
+      <line x1="10" y1="118" x2="190" y2="118" stroke="var(--primary)" stroke-width="2"/>
+      <line x1="0" y1="236" x2="200" y2="236" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- day: sun ring seen through the upper-right pane -->
+      <g class="ws-sun">
+        <circle cx="142" cy="58" r="17" fill="none" stroke="var(--accent-ochre)" stroke-width="2.5"/>
+        <g stroke="var(--accent-ochre)" stroke-width="2.5" stroke-linecap="round">
+          <line x1="142" y1="30" x2="142" y2="38"/><line x1="142" y1="78" x2="142" y2="86"/>
+          <line x1="114" y1="58" x2="122" y2="58"/><line x1="162" y1="58" x2="170" y2="58"/>
+          <line x1="122" y1="38" x2="128" y2="44"/><line x1="156" y1="72" x2="162" y2="78"/>
+          <line x1="162" y1="38" x2="156" y2="44"/><line x1="128" y1="72" x2="122" y2="78"/>
+        </g>
+      </g>
+      <!-- night: the lamp stands in front of the dark window -->
+      <g class="ws-lamp">
+        <ellipse class="ws-glow" cx="100" cy="150" rx="52" ry="48"/>
+        <path d="M76 128 L124 128 L116 158 L84 158 Z" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round"/>
+        <ellipse class="ws-bulb" cx="100" cy="163" rx="9" ry="7"/>
+        <line x1="100" y1="158" x2="100" y2="216" stroke="var(--primary)" stroke-width="2.5"/>
+        <path d="M78 224 Q100 214 122 224" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
     </svg>
 
-    <!-- Night decoration -->
-    <svg class="hero-lamp" viewBox="0 0 96 110" aria-hidden="true">
-      <ellipse class="glow" cx="48" cy="44" rx="44" ry="42"/>
-      <path d="M22 18 L74 18 L66 50 L30 50 Z" fill="var(--primary-light)" opacity="0.85"/>
-      <path d="M22 18 L74 18 L66 50 L30 50 Z" fill="none" stroke="var(--primary)" stroke-width="1.5" opacity="0.7"/>
-      <ellipse class="bulb" cx="48" cy="56" rx="10" ry="8"/>
-      <line x1="48" y1="50" x2="48" y2="92" stroke="var(--primary-light)" stroke-width="3"/>
-      <ellipse cx="48" cy="100" rx="20" ry="4" fill="var(--primary-light)"/>
-    </svg>
+    <div class="hero-text">
+      <span class="greeting greeting--day">
+        <span class="wave" aria-hidden="true">👋</span>
+        Hi — come in
+      </span>
+      <span class="greeting greeting--night">
+        <span class="flame" aria-hidden="true">🕯</span>
+        The lamp is on — come in
+      </span>
 
-    <span class="greeting greeting--day">
-      <span class="wave" aria-hidden="true">👋</span>
-      Hi — come in
-    </span>
-    <span class="greeting greeting--night">
-      <span class="flame" aria-hidden="true">🕯</span>
-      The lamp is on — come in
-    </span>
+      <h1 class="t-display hero-headline">
+        A small mobile studio that
+        <span class="h-mark">respects</span>
+        the people who use what it ships — built with
+        <span class="h-accent">care, not analytics</span>.
+      </h1>
 
-    <h1 class="t-display hero-headline">
-      A small mobile studio that
-      <span class="h-mark">respects</span>
-      the people who use what it ships — built with
-      <span class="h-accent">care, not analytics</span>.
-    </h1>
+      <p class="t-body hero-lede">
+        iOS and Android apps, end-to-end. Privacy audits for existing apps. On-device behavior testing. Currently a one-person studio, working from a quiet desk in Ukraine.
+      </p>
 
-    <p class="t-body hero-lede">
-      iOS and Android apps, end-to-end. Privacy audits for existing apps. On-device behavior testing. Currently a one-person studio, working from a quiet desk in Ukraine.
-    </p>
-
-    <div class="cta-row">
-      <a class="cta" href="mailto:contact@bulonka-studio.com">Email contact@bulonka-studio.com</a>
-      <span class="t-small cta-side">replies usually inside a business day.</span>
+      <div class="cta-row">
+        <a class="cta" href="mailto:contact@bulonka-studio.com">Email contact@bulonka-studio.com</a>
+        <span class="t-small cta-side">replies usually inside a business day.</span>
+      </div>
     </div>
   </section>
 
@@ -139,10 +149,49 @@ const principles = [
 </template>
 
 <style scoped>
-/* Hero */
-.hero { padding-top: var(--sp-7); }
+/* Hero — asymmetric at >=720px; small in-flow window above the text on mobile */
+.hero {
+  padding-top: var(--sp-6);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-4);
+  align-items: start;
+}
+.hero-text { grid-row: 2; grid-column: 1 / -1; }
+.window-scene { grid-column: 2; width: 118px; height: auto; }
+@media (min-width: 720px) {
+  .hero { grid-template-columns: 1.15fr 0.85fr; gap: var(--sp-6); align-items: center; }
+  .hero-text { grid-row: 1; grid-column: 1; }
+  .window-scene { width: min(100%, 300px); justify-self: end; }
+}
 .hero-headline { margin-top: var(--sp-3); margin-bottom: var(--sp-4); max-width: 24ch; }
 .hero-lede { color: var(--on-surface-soft); max-width: 56ch; font-size: 1.08rem; margin-bottom: var(--sp-5); }
+
+/* Window scene animation + day/night state */
+.ws-pane { animation: sky-drift 18s ease-in-out infinite alternate; }
+.ws-sun { transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.ws-bulb { fill: var(--primary); transform-box: fill-box; transform-origin: center; animation: bulb-flicker 4.5s ease-in-out infinite; }
+.ws-glow { fill: color-mix(in srgb, var(--primary) 22%, transparent); transform-box: fill-box; transform-origin: center; animation: glow-flicker 4.5s ease-in-out infinite; }
+@keyframes bulb-flicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  45% { opacity: 0.85; transform: scale(0.96); }
+  50% { opacity: 1;    transform: scale(1.04); }
+  55% { opacity: 0.92; transform: scale(0.98); }
+}
+@keyframes glow-flicker {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  45%      { opacity: 0.4; transform: scale(0.92); }
+  50%      { opacity: 0.7; transform: scale(1.08); }
+}
+[data-theme='light'] .ws-lamp { display: none; }
+[data-theme='dark'] .ws-sun { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .ws-lamp { display: none; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .ws-sun { display: none; }
+}
 
 .greeting {
   display: inline-flex;
@@ -203,40 +252,6 @@ const principles = [
 @keyframes gradient-breathe {
   0%, 100% { background-position: 0% 50%; }
   50%      { background-position: 100% 50%; }
-}
-
-/* Hero corner decorations */
-.hero-sun, .hero-lamp { position: absolute; top: var(--sp-3); right: var(--sp-3); pointer-events: none; }
-.hero-sun { width: 96px; height: 96px; opacity: 0.78; animation: spin 80s linear infinite; }
-.hero-sun circle { fill: var(--accent-ochre); }
-.hero-sun line { stroke: var(--accent-ochre); stroke-width: 3; stroke-linecap: round; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.hero-lamp { width: 96px; height: 110px; opacity: 0.95; }
-.hero-lamp .bulb { fill: var(--primary); animation: bulb-flicker 4.5s ease-in-out infinite; transform-origin: center; }
-.hero-lamp .glow { fill: color-mix(in srgb, var(--primary) 22%, transparent); animation: glow-flicker 4.5s ease-in-out infinite; transform-origin: center; }
-@keyframes bulb-flicker {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  45% { opacity: 0.85; transform: scale(0.96); }
-  50% { opacity: 1;    transform: scale(1.04); }
-  55% { opacity: 0.92; transform: scale(0.98); }
-}
-@keyframes glow-flicker {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  45%      { opacity: 0.4; transform: scale(0.92); }
-  50%      { opacity: 0.7; transform: scale(1.08); }
-}
-
-[data-theme='light'] .hero-lamp,
-:root:not([data-theme]) .hero-lamp { display: none; }
-[data-theme='dark'] .hero-sun { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .hero-sun { display: none; }
-  :root:not([data-theme]) .hero-lamp { display: block; }
-}
-
-@media (max-width: 720px) {
-  .hero-sun, .hero-lamp { width: 56px; height: 64px; top: var(--sp-2); right: var(--sp-2); }
 }
 
 /* Today block */
